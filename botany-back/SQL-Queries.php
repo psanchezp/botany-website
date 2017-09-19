@@ -5,7 +5,7 @@
 				  	UNION
 				  	SELECT * FROM Client
 				  	UNION
-				  	SELECT * FROM Provider)
+				  	SELECT * FROM Provider) AS T
 				  WHERE username = '$userName';";
 
 		$result = $conn->query($query);
@@ -35,17 +35,79 @@
 	}
 
 	function UpdateClient($conn, $userName, $column, $value) {
-		$query = "UPDATE Client
-				  SET $column = '$value'
+		if (strtolower($column) == "username") {
+			$query = "UPDATE Client
+				  SET username = '$value'
 				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "passwrd") {
+			$query = "UPDATE Client
+				  SET passwrd = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "name") {
+			$query = "UPDATE Client
+				  SET name = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "description") {
+			$query = "UPDATE Client
+				  SET description = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "type") { 
+			$query = "UPDATE Client
+				  SET type = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "phone") { 
+			$query = "UPDATE Client
+				  SET phone = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "address") { 
+			$query = "UPDATE Client
+				  SET address = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "email") { 
+			$query = "UPDATE Client
+				  SET email = '$value'
+				  WHERE username = '$userName';";
+		}
+
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function UpdateProvider($conn, $userName, $column, $value) {
-		$query = "UPDATE Provider
-				  SET $column = '$value'
+		if (strtolower($column) == "username") {
+			$query = "UPDATE Provider
+				  SET username = '$value'
 				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "passwrd") {
+			$query = "UPDATE Provider
+				  SET passwrd = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "name") {
+			$query = "UPDATE Provider
+				  SET name = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "description") {
+			$query = "UPDATE Provider
+				  SET description = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "type") { 
+			$query = "UPDATE Provider
+				  SET type = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "phone") { 
+			$query = "UPDATE Provider
+				  SET phone = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "address") { 
+			$query = "UPDATE Provider
+				  SET address = '$value'
+				  WHERE username = '$userName';";
+		} else if (strtolower($column) == "email") { 
+			$query = "UPDATE Provider
+				  SET email = '$value'
+				  WHERE username = '$userName';";
+		}
+
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -90,18 +152,49 @@
 	}	
 
 	function UpdateProduct($conn, $productID, $column, $value) {
-		$query = "UPDATE Product
-				  SET $column = '$value'
+		if (strtolower($column) == "name") {
+			$query = "UPDATE Product
+				  SET name = '$value'
 				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "category") {
+			$query = "UPDATE Product
+				  SET category = '$value'
+				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "measure") {
+			$query = "UPDATE Product
+				  SET measure = '$value'
+				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "price") {
+			$query = "UPDATE Product
+				  SET price = '$value'
+				  WHERE ID = '$productID';";
+		}
+
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function UpdateProductWithName($conn, $productName, $column, $value) {
 		$productID = GetProductIDFromName($conn, $productName);
-		$query = "UPDATE Product
-				  SET $column = '$value'
+		
+		if (strtolower($column) == "name") {
+			$query = "UPDATE Product
+				  SET name = '$value'
 				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "category") {
+			$query = "UPDATE Product
+				  SET category = '$value'
+				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "measure") {
+			$query = "UPDATE Product
+				  SET measure = '$value'
+				  WHERE ID = '$productID';";
+		} else if (strtolower($column) == "price") {
+			$query = "UPDATE Product
+				  SET price = '$value'
+				  WHERE ID = '$productID';";
+		}
+
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -199,7 +292,7 @@
 	}
 
 	function RegisterSale($conn, $clientUsername, $productID, $transactionDate, $quantity, $description) {
-		$query = "INSERT INTO Purchases VALUES ($clientUsername, $productID, $transactionDate, 0, $quantity, $description, 'Sale');";
+		$query = "INSERT INTO Sales VALUES ($clientUsername, $productID, $transactionDate, 0, $quantity, $description, 'Sale');";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -223,12 +316,35 @@
 	function UpdatePurchase($conn, $purchaseID, $column, $value) {
 		// First verify that the transaction is not finalized
 		if (PurchaseIsFinalized($conn, $purchaseID)) {
-			die("Error - You cannot update finalized transactions!");
+			die("Error - No puedes modificar transacciones finalizadas!");
+		} else if (strtolower($column) == "prov_username") {
+			die("Error - No puedes modificar el proveedor de la compra.");
+		} else if (strtolower($column) == "prod_id")  {
+			die("Error - No puedes modificar el producto de la compra.");
 		} else {
 			// Transaction is not finalized, we can make the update
-			$query = "UPDATE Purchases
-					  SET $column = '$value'
+			if (strtolower($column) == "transaction_date") {
+				$query = "UPDATE Purchases
+					  SET transaction_date = '$value'
 					  WHERE ID = '$purchaseID';";
+			} else if (strtolower($column) == "state") { 
+				$query = "UPDATE Purchases
+					  SET state = '$value'
+					  WHERE ID = '$purchaseID';";
+			} else if (strtolower($column) == "quantity") { 
+				$query = "UPDATE Purchases
+					  SET quantity = '$value'
+					  WHERE ID = '$purchaseID';";
+			} else if (strtolower($column) == "description") { 
+				$query = "UPDATE Purchases
+					  SET description = '$value'
+					  WHERE ID = '$purchaseID';";
+			} else if (strtolower($column) == "type") { 
+				$query = "UPDATE Purchases
+					  SET type = '$value'
+					  WHERE ID = '$purchaseID';";
+			}
+
 			$result = $conn->query($query);
 			return $result;
 		}
@@ -236,13 +352,36 @@
 
 	function UpdateSale($conn, $saleID, $column, $value) {
 		// First verify that the transaction is not finalized
-		if (SaleIsFinalized($conn, $saleID)) {
-			die("Error - You cannot update finalized transactions!");
+		if (PurchaseIsFinalized($conn, $purchaseID)) {
+			die("Error - No puedes modificar transacciones finalizadas!");
+		} else if (strtolower($column) == "client_username") {
+			die("Error - No puedes modificar el cliente de la venta.");
+		} else if (strtolower($column) == "prod_id")  {
+			die("Error - No puedes modificar el producto de la venta.");
 		} else {
 			// Transaction is not finalized, we can make the update
-			$query = "UPDATE Sales
-					  SET $column = '$value'
+			if (strtolower($column) == "transaction_date") {
+				$query = "UPDATE Sales
+					  SET transaction_date = '$value'
 					  WHERE ID = '$saleID';";
+			} else if (strtolower($column) == "state") { 
+				$query = "UPDATE Sales
+					  SET state = '$value'
+					  WHERE ID = '$saleID';";
+			} else if (strtolower($column) == "quantity") { 
+				$query = "UPDATE Sales
+					  SET quantity = '$value'
+					  WHERE ID = '$saleID';";
+			} else if (strtolower($column) == "description") { 
+				$query = "UPDATE Sales
+					  SET description = '$value'
+					  WHERE ID = '$saleID';";
+			} else if (strtolower($column) == "type") { 
+				$query = "UPDATE Sales
+					  SET type = '$value'
+					  WHERE ID = '$saleID';";
+			}
+			
 			$result = $conn->query($query);
 			return $result;
 		}
