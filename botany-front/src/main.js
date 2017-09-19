@@ -10,6 +10,12 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  data: {
+    newUser: {
+      username: '',
+      password: ''
+    }
+  },
   template: '<App/>',
   components: { App }
 })
