@@ -134,7 +134,7 @@
 	}
 
 	function RegisterProduct($conn, $productName, $productCategory, $productMeasure, $productPrice) {
-		$query = "INSERT INTO Product VALUES ($productName, $productCategory, $productMeasure, $productPrice);";
+		$query = "INSERT INTO Product VALUES (DEFAULT, $productName, $productCategory, $productMeasure, $productPrice);";
 		return mysqli_query($conn, $query);
 	}
 
@@ -279,20 +279,26 @@
 		return $result;
 	}
 
-	function GetTransactionsBetweenDates($conn, $firstDate, $secondDate) {
+	function GetPurchasesBetweenDates($conn, $firstDate, $secondDate) {
 		$query = "SELECT * FROM Purchases WHERE transaction_date >= $firstDate and transaction_date <= $secondDate";
 		$result = $conn->query($query);
 		return $result;
 	}
 
+	function GetSalesBetweenDates($conn, $firstDate, $secondDate) {
+		$query = "SELECT * FROM Sales WHERE transaction_date >= $firstDate and transaction_date <= $secondDate";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function RegisterPurchase($conn, $providerUsername, $productID, $transactionDate, $quantity, $description) {
-		$query = "INSERT INTO Purchases VALUES ($providerUsername, $productID, $transactionDate, 0, $quantity, $description, 'Purchase');";
+		$query = "INSERT INTO Purchases VALUES (DEFAULT, $providerUsername, $productID, $transactionDate, 0, $quantity, $description);";
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function RegisterSale($conn, $clientUsername, $productID, $transactionDate, $quantity, $description) {
-		$query = "INSERT INTO Sales VALUES ($clientUsername, $productID, $transactionDate, 0, $quantity, $description, 'Sale');";
+		$query = "INSERT INTO Sales VALUES (DEFAULT, $clientUsername, $productID, $transactionDate, 0, $quantity, $description);";
 		$result = $conn->query($query);
 		return $result;
 	}
