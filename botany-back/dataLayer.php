@@ -177,4 +177,31 @@
 		}
 		return array("status" => "500");
     }
+
+    function attemptUpdateProduct($oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           if ($oldProductName != "" && $newProductName != "" && $productCategory != "" && $productMeasure != "" && $productPrice != "") {
+
+                $result = UpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice);
+
+                if ($result) {
+                    $response = array("status" => "SUCCESS", "oldName" => $oldProductName, "newName" => $newProductName, "category" => $productCategory, "measure" => $productMeasure, "price" => $productPrice);
+                    
+                    $connection->close();
+                    return $response;
+                } else {
+                    $connection->close();
+                    return array("status" => "418");
+                }
+            } else {
+                $connection->close();
+                return array("status" => "414");
+            }
+        } else {
+            return array("status" => "500");
+        }
+        return array("status" => "500");
+    }
 ?>
