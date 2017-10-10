@@ -149,7 +149,14 @@
 		$query = "SELECT * FROM Product WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
-	}	
+	}
+
+	function UpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
+		$productID = GetProductIDFromName($conn, $oldProductName);
+		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID'";
+		$result = $conn->query($query);
+		return $result;
+	}
 
 	function UpdateProduct($conn, $productID, $column, $value) {
 		if (strtolower($column) == "name") {
