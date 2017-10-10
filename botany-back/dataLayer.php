@@ -198,4 +198,25 @@
             return array("status" => "500");
         }
     }
+
+    function attemptReadProduct($productName) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           
+            $result = GetProductInfoFromName($conn, $productName);
+
+            if ($result) {
+                $response = array("status" => "SUCCESS", "name" => $result['name'], "category" => $result['category'], "measure" => $result['measure'], "price" => $result['price']);
+                
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "418");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
