@@ -283,8 +283,14 @@
             case "417" : header("HTTP/1.1 417 No existe un producto con ese nombre.");
                         die("No existe un producto con ese nombre.");
                         break;
-            case "418" : header("HTTP/1.1 415 No se ha podido actualizar el producto");
+            case "418" : header("HTTP/1.1 418 No se ha podido actualizar el producto");
                         die("No se ha podido actualizar la informacion del producto.");
+                        break;
+            case "419" : header("HTTP/1.1 419 No se ha podido leer la informacion del producto");
+                        die("No se ha podido leer la informacion del producto.");
+                        break;
+            case "420" : header("HTTP/1.1 420 No se ha podido eliminar el producto");
+                        die("No se ha podido eliminar el producto seleccionado.");
                         break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
