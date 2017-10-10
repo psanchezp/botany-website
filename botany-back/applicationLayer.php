@@ -176,14 +176,10 @@
     function deleteProduct() {
         $productName = $_POST["productName"];
 
-        $result = verifyProductDoesNotExist($productName);
+        $result = verifyProductExists($productName);
 
         if ($result["status"] == "SUCCESS") {
-            $productCategory = $_POST["productCategory"];
-            $productMeasure  = $_POST["productMeasure"];
-            $productPrice    = $_POST["productPrice"];
-
-            $result = attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice);
+            $result = attemptDeleteProduct($productName);
 
             if ($result["status"] == "SUCCESS") { 
                 echo json_encode($result);
