@@ -6,16 +6,14 @@
 	$action = $_POST["action"];
 
 	switch($action) {
-        case "LOGIN" : loginUser();
-                        break;
-        case "LOGOUT" : logoutUser();
-                        break;
-        case "REGISTER_CLIENT" : registerClient();
-						break;
-        case "REGISTER_PROVIDER" : registerProvider();
-						break;
-        case "REGISTER_PRODUCT" : registerProduct();
-						break;
+        case "LOGIN"             : loginUser();        break;
+        case "LOGOUT"            : logoutUser();       break;
+        case "REGISTER_CLIENT"   : registerClient();   break;
+        case "REGISTER_PROVIDER" : registerProvider(); break;
+        case "REGISTER_PRODUCT"  : registerProduct();  break;
+        case "UPDATE_PRODUCT"    : updateProduct();    break;
+        case "READ_PRODUCT"      : readProduct();      break;
+        case "DELETE_PRODUCT"    : deleteProduct();    break;
     }
 
     function loginUser() {
@@ -136,7 +134,67 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($resopnse["status"]);
+            errorHandling($response["status"]);
+        }
+    }
+
+    function updateProduct() {
+        $oldProductName = $_POST["oldProductName"];
+        $newProductName = $_POST["newProductName"];
+        $productCategory = $_POST["productCategory"];
+        $productMeasure  = $_POST["productMeasure"];
+        $productPrice    = $_POST["productPrice"];
+
+        $result = attemptUpdateProduct($oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice);
+
+        if ($result["status"] == "SUCCESS") { 
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function readProduct() {
+        $productName = $_POST["productName"];
+
+        $result = verifyProductDoesNotExist($productName);
+
+        if ($result["status"] == "SUCCESS") {
+            $productCategory = $_POST["productCategory"];
+            $productMeasure  = $_POST["productMeasure"];
+            $productPrice    = $_POST["productPrice"];
+
+            $result = attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice);
+
+            if ($result["status"] == "SUCCESS") { 
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($response["status"]);
+        }
+    }
+
+    function deleteProduct() {
+        $productName = $_POST["productName"];
+
+        $result = verifyProductDoesNotExist($productName);
+
+        if ($result["status"] == "SUCCESS") {
+            $productCategory = $_POST["productCategory"];
+            $productMeasure  = $_POST["productMeasure"];
+            $productPrice    = $_POST["productPrice"];
+
+            $result = attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice);
+
+            if ($result["status"] == "SUCCESS") { 
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($response["status"]);
         }
     }
 
