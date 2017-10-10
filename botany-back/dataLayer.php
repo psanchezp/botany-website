@@ -36,8 +36,6 @@
         } else {
 			return array("status" => "500");
 		}
-
-		return array("status" => "500");
     }
 
     function verifyUserDoesNotExist($username) {
@@ -121,7 +119,6 @@
         } else {
 			return array("status" => "500");
 		}
-		return array("status" => "500");
     }
 
     function attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
@@ -148,7 +145,6 @@
         } else {
 			return array("status" => "500");
 		}
-		return array("status" => "500");
     }
     
     function attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice) {
@@ -175,7 +171,6 @@
         } else {
 			return array("status" => "500");
 		}
-		return array("status" => "500");
     }
 
     function attemptUpdateProduct($oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
@@ -202,6 +197,5 @@
         } else {
             return array("status" => "500");
         }
-        return array("status" => "500");
     }
 ?>
