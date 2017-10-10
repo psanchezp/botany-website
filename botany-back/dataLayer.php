@@ -213,7 +213,28 @@
                 return $response;
             } else {
                 $connection->close();
-                return array("status" => "418");
+                return array("status" => "419");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptDeleteProduct($productName) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           
+            $result = DeleteProductWithName($conn, $productName);
+
+            if ($result) {
+                $response = array("status" => "SUCCESS");
+                
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "420");
             }
         } else {
             return array("status" => "500");
