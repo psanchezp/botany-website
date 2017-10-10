@@ -71,7 +71,26 @@
                 return $response;
             } else {
                 $connection->close();
-                return array("status" => "409");
+                return array("status" => "416");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function verifyProductExists($productName) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+            $result = GetProductInfoFromName($connection, $productName);
+
+            if ($result->num_rows > 0) {
+                $response = array("status" => "SUCCESS");
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "417");
             }
         } else {
             return array("status" => "500");
