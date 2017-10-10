@@ -277,11 +277,17 @@
             case "415" : header("HTTP/1.1 415 No se ha podido crear el producto");
                         die("No se ha podido crear el nuevo producto.");
                         break;
+            case "416" : header("HTTP/1.1 416 Un producto con ese nombre ya existe.");
+                        die("Ya existe un producto con el mismo nombre, eliga otro.");
+                        break;
+            case "417" : header("HTTP/1.1 417 No existe un producto con ese nombre.");
+                        die("No existe un producto con ese nombre.");
+                        break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
 						break;
-            default : header('HTTP/1.1 417 Error en la aplicación.')
-                      die("Error en la aplicación.")ñ
+            default : header('HTTP/1.1 417 Error en la aplicación.');
+                      die("Error en la aplicación.");
                       break;
 		}
 	}
