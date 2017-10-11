@@ -2,25 +2,25 @@
 
     require_once __DIR__ . '/SQL-Queries.php';
 
-	function connectionToDataBase() {
-		$servername = "localhost";
-		$username   = "root";
-		$passwrd    = "root";
-		$dbname     = "botanychips";
+    function connectionToDataBase() {
+        $servername = "localhost";
+        $username   = "root";
+        $passwrd    = "root";
+        $dbname     = "botanychips";
         
-		$conn = new mysqli($servername, $username, $passwrd, $dbname);
-		
-		if ($conn->connect_error) {
-			return null;
-		} else {
-			return $conn;
-		}
-	}
+        $conn = new mysqli($servername, $username, $passwrd, $dbname);
+        
+        if ($conn->connect_error) {
+            return null;
+        } else {
+            return $conn;
+        }
+    }
 
     function attemptLogin($username) {
         $connection = connectionToDataBase();
-		if ($connection != null) {
-            $result = FindUsername($connection, $username);
+        if ($connection != null) {
+            $result = SQLFindUsername($connection, $username);
 
             if ($result->num_rows > 0) {   
                 while($row = $result->fetch_assoc()) {
@@ -31,29 +31,29 @@
                 return $response;    
             } else {
                 $connection->close();
-				return array("status" => "ERROR");
+                return array("status" => "ERROR");
             }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function verifyUserDoesNotExist($username) {
-    	$connection = connectionToDataBase();
+        $connection = connectionToDataBase();
 
         if ($connection != null) {
-            $result = FindUsername($connection, $username);
+            $result = SQLFindUsername($connection, $username);
 
-			if ($result->num_rows == 0) {
+            if ($result->num_rows == 0) {
                 $response = array("status" => "SUCCESS");
-				$connection->close();
-				return $response;
+                $connection->close();
+                return $response;
             } else {
-				$connection->close();
-				return array("status" => "409");
-			}
+                $connection->close();
+                return array("status" => "409");
+            }
         } else {
-        	return array("status" => "500");
+            return array("status" => "500");
         }
     }
 
@@ -61,7 +61,7 @@
         $connection = connectionToDataBase();
 
         if ($connection != null) {
-            $result = GetProductInfoFromName($connection, $productName);
+            $result = SQLGetProductInfoFromName($connection, $productName);
 
             if ($result->num_rows == 0) {
                 $response = array("status" => "SUCCESS");
@@ -80,7 +80,7 @@
         $connection = connectionToDataBase();
 
         if ($connection != null) {
-            $result = GetProductInfoFromName($connection, $productName);
+            $result = SQLGetProductInfoFromName($connection, $productName);
 
             if ($result->num_rows > 0) {
                 $response = array("status" => "SUCCESS");
@@ -98,10 +98,10 @@
     function attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
             if ($username != "" && $userPassword != "" && $name != "" && $userDescription != "") {
 
-                $result = RegisterClient($connection, $username, $userPassword, $name, $userDescription, 'client', $userPhone, $userAddress, $userEmail);
+                $result = SQLRegisterClient($connection, $username, $userPassword, $name, $userDescription, 'client', $userPhone, $userAddress, $userEmail);
 
                 if ($result) {
                     $response = array("status" => "SUCCESS", "username" => $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'client', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
@@ -113,21 +113,21 @@
                     return array("status" => "411");
                 }
             } else {
-				$connection->close();
-				return array("status" => "410");
-			}
+                $connection->close();
+                return array("status" => "410");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
            if ($username != "" && $userPassword != "" && $name != "" && $userDescription != "") {
                 
-                $result = RegisterProvider($connection, $username, $userPassword, $name, $userDescription, 'provider', $userPhone, $userAddress, $userEmail);
+                $result = SQLRegisterProvider($connection, $username, $userPassword, $name, $userDescription, 'provider', $userPhone, $userAddress, $userEmail);
 
                 if ($result) {
                     $response = array("status" => "SUCCESS", "username" => $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'provider', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
@@ -139,21 +139,21 @@
                     return array("status" => "413");
                 }
             } else {
-				$connection->close();
-				return array("status" => "410");
-			}
+                $connection->close();
+                return array("status" => "410");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
     
     function attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
            if ($productName != "" && $productCategory != "" && $productMeasure != "" && $productPrice != "") {
 
-                $result = RegisterProduct($conn, $productName, $productCategory, $productMeasure, $productPrice);
+                $result = SQLRegisterProduct($connection, $productName, $productCategory, $productMeasure, $productPrice);
 
                 if ($result) {
                     $response = array("status" => "SUCCESS", "name" => $productName, "category" => $productCategory, "measure" => $productMeasure, "price" => $productPrice);
@@ -165,12 +165,12 @@
                     return array("status" => "415");
                 }
             } else {
-				$connection->close();
-				return array("status" => "414");
-			}
+                $connection->close();
+                return array("status" => "414");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function attemptUpdateProduct($oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
@@ -179,7 +179,7 @@
         if ($connection != null) {
            if ($oldProductName != "" && $newProductName != "" && $productCategory != "" && $productMeasure != "" && $productPrice != "") {
 
-                $result = UpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice);
+                $result = SQLUpdateFullProduct($connection, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice);
 
                 if ($result) {
                     $response = array("status" => "SUCCESS", "oldName" => $oldProductName, "newName" => $newProductName, "category" => $productCategory, "measure" => $productMeasure, "price" => $productPrice);
@@ -204,7 +204,7 @@
 
         if ($connection != null) {
            
-            $result = GetProductInfoFromName($conn, $productName);
+            $result = SQLGetProductInfoFromName($connection, $productName);
 
             if ($result) {
                 $response = array("status" => "SUCCESS", "name" => $result['name'], "category" => $result['category'], "measure" => $result['measure'], "price" => $result['price']);
@@ -225,7 +225,7 @@
 
         if ($connection != null) {
            
-            $result = DeleteProductWithName($conn, $productName);
+            $result = SQLDeleteProductWithName($connection, $productName);
 
             if ($result) {
                 $response = array("status" => "SUCCESS");

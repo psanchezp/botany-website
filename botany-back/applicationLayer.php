@@ -1,11 +1,11 @@
 <?php
-	header('Accept: application/json');
-	header('Content-type: application/json');
-	require_once __DIR__ . '/dataLayer.php';
+    header('Accept: application/json');
+    header('Content-type: application/json');
+    require_once __DIR__ . '/dataLayer.php';
 
-	$action = $_POST["action"];
+    $action = $_POST["action"];
 
-	switch($action) {
+    switch($action) {
         case "LOGIN"             : loginUser();        break;
         case "LOGOUT"            : logoutUser();       break;
         case "REGISTER_CLIENT"   : registerClient();   break;
@@ -25,8 +25,8 @@
             $result = attemptLogin($username);
 
             if ($result["status"] == "SUCCESS") {
-                $decryptedPassword = decryptPassword($result['password']);
-
+                $decryptedPassword = decryptPassword($result['passwrd']);
+                
                 if ($decryptedPassword === $userPassword) {
                     startSession($username, $result["type"]);
 
@@ -41,7 +41,7 @@
                 }
             } else {
                 // Usuario incorrecto
-                errorHandling($result["status"]);
+                errorHandling("407");
             } 
         } else {
             // Login con usuario y/o contraseña vacios
@@ -75,18 +75,18 @@
             $userEmail       = $_POST["userEmail"];
 
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") {
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "client");
 
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }  
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function registerProvider() {
@@ -95,7 +95,7 @@
         $result = verifyUserDoesNotExist($username);
 
         if ($result["status"] == "SUCCESS") {
-			$userPassword    = encryptPassword();
+            $userPassword    = encryptPassword();
             $name            = $_POST["name"];
             $userDescription = $_POST["userDescription"];
             $userPhone       = $_POST["userPhone"];
@@ -103,17 +103,17 @@
             $userEmail       = $_POST["userEmail"];
         
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") { 
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "provider");
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function registerProduct() {
@@ -207,23 +207,23 @@
 
         $key       = pack('H*', "bcb04b7e103a05afe34763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
         $key_size  = strlen($key);
-        $plaintext = $uContrasena;
+        $plaintext = $userPassword;
         $iv_size   = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
         $iv        = mcrypt_create_iv($iv_size, MCRYPT_RAND);
         
         $ciphertext = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $plaintext, MCRYPT_MODE_CBC, $iv);
         $ciphertext = $iv . $ciphertext;
         
-        $uContrasena = base64_encode($ciphertext);
+        $userPassword = base64_encode($ciphertext);
 
-        return $uContrasena;
+        return $userPassword;
         
     }
 
     function decryptPassword($userPassword) {
         $key            = pack('H*', "bcb04b7e103a05afe34763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
         $iv_size        = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-        $ciphertext_dec = base64_decode($uContrasenaBD);
+        $ciphertext_dec = base64_decode($userPassword);
         $iv_dec         = substr($ciphertext_dec, 0, $iv_size);
         $ciphertext_dec = substr($ciphertext_dec, $iv_size);
         $userPassword   = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
@@ -242,14 +242,14 @@
         return $userPassword;
     }
 
-	function errorHandling($errorStatus) {
-		switch ($errorStatus) {
+    function errorHandling($errorStatus) {
+        switch ($errorStatus) {
             case "500" : header("HTTP/1.1 500 No se ha conectado a la base de datos.");
                         die("El servidor esta caído, inténtelo nuevamente.");
-						break;
+                        break;
             case "406" : header("HTTP/1.1 406 Usuario y/o contraseña vacíos.");
                         die("Ingrese un usuario y contraseña válidos.");
-						break;
+                        break;
             case "407" : header('HTTP/1.1 407 Los datos ingresados no coinciden con los guardados.');
                         die("Los datos ingresados no coinciden con los guardados.");
                         break;
@@ -292,12 +292,12 @@
             case "420" : header("HTTP/1.1 420 No se ha podido eliminar el producto");
                         die("No se ha podido eliminar el producto seleccionado.");
                         break;
-			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
+            case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
-						break;
+                        break;
             default : header('HTTP/1.1 417 Error en la aplicación.');
                       die("Error en la aplicación.");
                       break;
-		}
-	}
+        }
+    }
 ?>
