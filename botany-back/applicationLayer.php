@@ -1,11 +1,14 @@
 <?php
-	header('Accept: application/json');
-	header('Content-type: application/json');
-	require_once __DIR__ . '/dataLayer.php';
+    header('Accept: application/json');
+    header('Content-type: application/json');
+    require_once __DIR__ . '/dataLayer.php';
 
-	$action = $_POST["action"];
+    $action = $_POST["action"];
+    foreach ($_POST as $value) {
+        echo $value;
+    }
 
-	switch($action) {
+    switch($action) {
         case "LOGIN"             : loginUser();        break;
         case "LOGOUT"            : logoutUser();       break;
         case "REGISTER_CLIENT"   : registerClient();   break;
@@ -25,7 +28,7 @@
             $result = attemptLogin($username);
 
             if ($result["status"] == "SUCCESS") {
-                $decryptedPassword = decryptPassword($result['password']);
+                $decryptedPassword = decryptPassword($result['passwrd']);
 
                 if ($decryptedPassword === $userPassword) {
                     startSession($username, $result["type"]);
@@ -41,7 +44,7 @@
                 }
             } else {
                 // Usuario incorrecto
-                errorHandling($result["status"]);
+                errorHandling("407");
             } 
         } else {
             // Login con usuario y/o contraseña vacios
@@ -75,18 +78,18 @@
             $userEmail       = $_POST["userEmail"];
 
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") {
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "client");
 
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }  
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function registerProvider() {
@@ -95,7 +98,7 @@
         $result = verifyUserDoesNotExist($username);
 
         if ($result["status"] == "SUCCESS") {
-			$userPassword    = encryptPassword();
+            $userPassword    = encryptPassword();
             $name            = $_POST["name"];
             $userDescription = $_POST["userDescription"];
             $userPhone       = $_POST["userPhone"];
@@ -103,17 +106,17 @@
             $userEmail       = $_POST["userEmail"];
         
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") { 
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "provider");
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function registerProduct() {
@@ -242,14 +245,14 @@
         return $userPassword;
     }
 
-	function errorHandling($errorStatus) {
-		switch ($errorStatus) {
+    function errorHandling($errorStatus) {
+        switch ($errorStatus) {
             case "500" : header("HTTP/1.1 500 No se ha conectado a la base de datos.");
                         die("El servidor esta caído, inténtelo nuevamente.");
-						break;
+                        break;
             case "406" : header("HTTP/1.1 406 Usuario y/o contraseña vacíos.");
                         die("Ingrese un usuario y contraseña válidos.");
-						break;
+                        break;
             case "407" : header('HTTP/1.1 407 Los datos ingresados no coinciden con los guardados.');
                         die("Los datos ingresados no coinciden con los guardados.");
                         break;
@@ -292,12 +295,12 @@
             case "420" : header("HTTP/1.1 420 No se ha podido eliminar el producto");
                         die("No se ha podido eliminar el producto seleccionado.");
                         break;
-			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
+            case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
-						break;
+                        break;
             default : header('HTTP/1.1 417 Error en la aplicación.');
                       die("Error en la aplicación.");
                       break;
-		}
-	}
+        }
+    }
 ?>

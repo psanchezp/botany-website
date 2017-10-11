@@ -1,5 +1,5 @@
 <?php
-	function FindUsername($conn, $userName) {
+	function SQLFindUsername($conn, $userName) {
 		$query = "SELECT * FROM 
 					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email FROM Administrator 
 				  	UNION
@@ -12,29 +12,29 @@
 		return $result;
 	}
 
-	function RegisterClient($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
+	function SQLRegisterClient($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
 		$query = "INSERT INTO Client VALUES ($userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail);";
 		return mysqli_query($conn, $query);
 	}
 
-	function RegisterProvider($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
+	function SQLRegisterProvider($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
 		$query = "INSERT INTO Provider VALUES ($userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail);";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetClientInfo($conn, $userName) {
+	function SQLGetClientInfo($conn, $userName) {
 		$query = "SELECT * FROM Client WHERE username = '$userName';";
 		return mysqli_query($conn, $query);
 	}
 
-	function GetProviderInfo($conn, $userName) {
+	function SQLGetProviderInfo($conn, $userName) {
 		$query = "SELECT * FROM Provider WHERE username = '$userName';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function UpdateClient($conn, $userName, $column, $value) {
+	function SQLUpdateClient($conn, $userName, $column, $value) {
 		if (strtolower($column) == "username") {
 			$query = "UPDATE Client
 				  SET username = '$value'
@@ -73,7 +73,7 @@
 		return $result;
 	}
 
-	function UpdateProvider($conn, $userName, $column, $value) {
+	function SQLUpdateProvider($conn, $userName, $column, $value) {
 		if (strtolower($column) == "username") {
 			$query = "UPDATE Provider
 				  SET username = '$value'
@@ -112,53 +112,53 @@
 		return $result;
 	}
 
-	function DeleteClient($conn, $userName) {
+	function SQLDeleteClient($conn, $userName) {
 		$query = "DELETE FROM Client
 				  WHERE username = '$userName';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function DeleteProvider($conn, $userName) {
+	function SQLDeleteProvider($conn, $userName) {
 		$query = "DELETE FROM Provider
 				  WHERE username = '$userName';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetProductIDFromName($conn, $productName) {
+	function SQLGetProductIDFromName($conn, $productName) {
 		$query = "SELECT ID FROM Product WHERE name = '$productName';";
 		$result = $conn->query($query);
 		$row = $result->fetch_assoc();
 		return $row['ID'];
 	}
 
-	function RegisterProduct($conn, $productName, $productCategory, $productMeasure, $productPrice) {
+	function SQLRegisterProduct($conn, $productName, $productCategory, $productMeasure, $productPrice) {
 		$query = "INSERT INTO Product VALUES (DEFAULT, $productName, $productCategory, $productMeasure, $productPrice);";
 		return mysqli_query($conn, $query);
 	}
 
-	function GetProductInfo($conn, $productID) {
+	function SQLGetProductInfo($conn, $productID) {
 		$query = "SELECT * FROM Product WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetProductInfoFromName($conn, $productName) {
+	function SQLGetProductInfoFromName($conn, $productName) {
 		$productID = GetProductIDFromName($conn, $productName);
 		$query = "SELECT * FROM Product WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function UpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
+	function SQLUpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
 		$productID = GetProductIDFromName($conn, $oldProductName);
 		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID'";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function UpdateProduct($conn, $productID, $column, $value) {
+	function SQLUpdateProduct($conn, $productID, $column, $value) {
 		if (strtolower($column) == "name") {
 			$query = "UPDATE Product
 				  SET name = '$value'
@@ -181,7 +181,7 @@
 		return $result;
 	}
 
-	function UpdateProductWithName($conn, $productName, $column, $value) {
+	function SQLUpdateProductWithName($conn, $productName, $column, $value) {
 		$productID = GetProductIDFromName($conn, $productName);
 		
 		if (strtolower($column) == "name") {
@@ -206,14 +206,14 @@
 		return $result;
 	}
 
-	function DeleteProduct($conn, $productID) {
+	function SQLDeleteProduct($conn, $productID) {
 		$query = "DELETE FROM Product
 				  WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function DeleteProductWithName($conn, $productName) {
+	function SQLDeleteProductWithName($conn, $productName) {
 		$productID = GetProductIDFromName($conn, $productName);
 		$query = "DELETE FROM Product
 				  WHERE ID = '$productID';";
@@ -221,7 +221,7 @@
 		return $result;
 	}
 
-	function GetAllTransactions($conn) {
+	function SQLGetAllTransactions($conn) {
 		$query = "SELECT * FROM Purchases
 				  UNION
 				  SELECT * FROM Sales;";
@@ -229,19 +229,19 @@
 		return $result;
 	}
 
-	function GetAllPurchases($conn) {
+	function SQLGetAllPurchases($conn) {
 		$query = "SELECT * FROM Purchases;";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetAllSales($conn) {
+	function SQLGetAllSales($conn) {
 		$query = "SELECT * FROM Sales;";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetAllNonFinalizedTransactions($conn) {
+	function SQLGetAllNonFinalizedTransactions($conn) {
 		$query = "SELECT * FROM Purchases WHERE state = 0
 				  UNION
 				  SELECT * FROM Sales WHERE state = 0";
@@ -249,7 +249,7 @@
 		return $result;
 	}
 
-	function GetAllFinalizedTransactions($conn) {
+	function SQLGetAllFinalizedTransactions($conn) {
 		$query = "SELECT * FROM Purchases WHERE state = 1
 				  UNION
 				  SELECT * FROM Sales WHERE state = 1";
@@ -257,19 +257,19 @@
 		return $result;
 	}
 
-	function GetTransactionsWithClient($conn, $userName) {
+	function SQLGetTransactionsWithClient($conn, $userName) {
 		$query = "SELECT * FROM Sales WHERE client_username = '$userName';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetTransactionsWithProvider($conn, $userName) {
+	function SQLGetTransactionsWithProvider($conn, $userName) {
 		$query = "SELECT * FROM Purchases WHERE prov_username = '$userName';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetTransactionsWithProduct($conn, $productID) {
+	function SQLGetTransactionsWithProduct($conn, $productID) {
 		$query = "SELECT * FROM Purchases WHERE prod_id = '$productID'
 				  UNION
 				  SELECT * FROM Sales WHERE prod_id = '$productID';";
@@ -277,7 +277,7 @@
 		return $result;
 	}
 
-	function GetTransactionsWithProductName($conn, $productName) {
+	function SQLGetTransactionsWithProductName($conn, $productName) {
 		$productID = GetProductIDFromName($conn, $productName);
 		$query = "SELECT * FROM Purchases WHERE prod_id = '$productID'
 				  UNION
@@ -286,31 +286,31 @@
 		return $result;
 	}
 
-	function GetPurchasesBetweenDates($conn, $firstDate, $secondDate) {
+	function SQLGetPurchasesBetweenDates($conn, $firstDate, $secondDate) {
 		$query = "SELECT * FROM Purchases WHERE transaction_date >= $firstDate and transaction_date <= $secondDate";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function GetSalesBetweenDates($conn, $firstDate, $secondDate) {
+	function SQLGetSalesBetweenDates($conn, $firstDate, $secondDate) {
 		$query = "SELECT * FROM Sales WHERE transaction_date >= $firstDate and transaction_date <= $secondDate";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function RegisterPurchase($conn, $providerUsername, $productID, $transactionDate, $quantity, $description) {
+	function SQLRegisterPurchase($conn, $providerUsername, $productID, $transactionDate, $quantity, $description) {
 		$query = "INSERT INTO Purchases VALUES (DEFAULT, $providerUsername, $productID, $transactionDate, 0, $quantity, $description);";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function RegisterSale($conn, $clientUsername, $productID, $transactionDate, $quantity, $description) {
+	function SQLRegisterSale($conn, $clientUsername, $productID, $transactionDate, $quantity, $description) {
 		$query = "INSERT INTO Sales VALUES (DEFAULT, $clientUsername, $productID, $transactionDate, 0, $quantity, $description);";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function PurchaseIsFinalized($conn, $purchaseID) {
+	function SQLPurchaseIsFinalized($conn, $purchaseID) {
 		$query = "SELECT state FROM Purchases WHERE ID = '$purchaseID';";
 		$result = $conn->query($query);
 		$row = $result->fetch_assoc();
@@ -318,7 +318,7 @@
 		return $row['state'];
 	}
 
-	function SaleIsFinalized($conn, $saleID) {
+	function SQLSaleIsFinalized($conn, $saleID) {
 		$query = "SELECT state FROM Sales WHERE ID = '$saleID';";
 		$result = $conn->query($query);
 		$row = $result->fetch_assoc();
@@ -326,7 +326,7 @@
 		return $row['state'];
 	}
 
-	function UpdatePurchase($conn, $purchaseID, $column, $value) {
+	function SQLUpdatePurchase($conn, $purchaseID, $column, $value) {
 		// First verify that the transaction is not finalized
 		if (PurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
@@ -363,7 +363,7 @@
 		}
 	}
 
-	function UpdateSale($conn, $saleID, $column, $value) {
+	function SQLUpdateSale($conn, $saleID, $column, $value) {
 		// First verify that the transaction is not finalized
 		if (PurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
@@ -400,21 +400,21 @@
 		}
 	}
 
-	function DeletePurchase($conn, $purchaseID) {
+	function SQLDeletePurchase($conn, $purchaseID) {
 		$query = "DELETE FROM Purchases
 				  WHERE ID = '$purchaseID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function DeleteSale($conn, $saleID) {
+	function SQLDeleteSale($conn, $saleID) {
 		$query = "DELETE FROM Sales
 			      WHERE ID = '$saleID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function finalizePurchase($conn, $purchaseID) {
+	function SQLFinalizePurchase($conn, $purchaseID) {
 		// Verify that the transaction is not finalized to begin with
 		if (PurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - This transaction is already finalized!");
@@ -428,7 +428,7 @@
 		}
 	}
 
-	function finalizeSale($conn, $saleID) {
+	function SQLFinalizeSale($conn, $saleID) {
 		// Verify that the transaction is not finalized to begin with
 		if (SaleIsFinalized($conn, $saleID)) {
 			die("Error - This transaction is already finalized!");
