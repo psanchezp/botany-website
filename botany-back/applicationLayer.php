@@ -4,9 +4,6 @@
     require_once __DIR__ . '/dataLayer.php';
 
     $action = $_POST["action"];
-    foreach ($_POST as $value) {
-        echo $value;
-    }
 
     switch($action) {
         case "LOGIN"             : loginUser();        break;
@@ -29,7 +26,7 @@
 
             if ($result["status"] == "SUCCESS") {
                 $decryptedPassword = decryptPassword($result['passwrd']);
-
+                
                 if ($decryptedPassword === $userPassword) {
                     startSession($username, $result["type"]);
 
