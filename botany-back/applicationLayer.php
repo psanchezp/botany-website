@@ -210,23 +210,23 @@
 
         $key       = pack('H*', "bcb04b7e103a05afe34763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
         $key_size  = strlen($key);
-        $plaintext = $uContrasena;
+        $plaintext = $userPassword;
         $iv_size   = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
         $iv        = mcrypt_create_iv($iv_size, MCRYPT_RAND);
         
         $ciphertext = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $plaintext, MCRYPT_MODE_CBC, $iv);
         $ciphertext = $iv . $ciphertext;
         
-        $uContrasena = base64_encode($ciphertext);
+        $userPassword = base64_encode($ciphertext);
 
-        return $uContrasena;
+        return $userPassword;
         
     }
 
     function decryptPassword($userPassword) {
         $key            = pack('H*', "bcb04b7e103a05afe34763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
         $iv_size        = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-        $ciphertext_dec = base64_decode($uContrasenaBD);
+        $ciphertext_dec = base64_decode($userPassword);
         $iv_dec         = substr($ciphertext_dec, 0, $iv_size);
         $ciphertext_dec = substr($ciphertext_dec, $iv_size);
         $userPassword   = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
