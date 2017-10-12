@@ -21,4 +21,9 @@ export default {
   background-color: #66BB6A;
   color: white !important;
 }
+
+.red {
+  background-color: #F44336;
+  color: white !important;
+}
 </style>

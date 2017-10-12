@@ -8,14 +8,22 @@
               <md-table-head>Nombre</md-table-head>
               <md-table-head>Correo</md-table-head>
               <md-table-head>Telefono</md-table-head>
+              <md-table-head>Editar</md-table-head>
+              <md-table-head>Borrar</md-table-head>
             </md-table-row>
           </md-table-header>
 
           <md-table-body>
             <md-table-row v-for="(row, index) in 3" :key="index">
-              <md-table-cell>Juanito</md-table-cell>
+              <md-table-cell>
+                <a class="md-transparent" href="/product/x">
+                  Juanito
+                </a>
+              </md-table-cell>
               <md-table-cell>juan@juan.com</md-table-cell>
               <md-table-cell>8115433345</md-table-cell>
+              <md-table-cell><edit-button></edit-button></md-table-cell>
+              <md-table-cell><delete-button></delete-button></md-table-cell>
             </md-table-row>
           </md-table-body>
         </md-table>
@@ -25,17 +33,18 @@
 </template>
 
 <script>
-// import NavBar from '@/components/NavBar'
+import DeleteButton from '@/components/buttons/DeleteButton'
+import EditButton from '@/components/buttons/EditButton'
 
 export default {
   name: 'client-table',
   data () {
     return {
     }
+  },
+  components: {
+    DeleteButton, EditButton
   }
-  // components: {
-  //   NavBar
-  // }
 }
 </script>
 

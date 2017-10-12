@@ -13,7 +13,6 @@ export default {
   name: 'add-button',
   data () {
     return {
-      msg: '+'
     }
   }
 }
