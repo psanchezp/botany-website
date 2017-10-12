@@ -1,6 +1,6 @@
 <template>
   <div class="button-template">
-    <md-button href="/hello">{{ msg }}</md-button>
+    <md-button class="md-accent" href="/hello">{{ msg }}</md-button>
   </div>
 </template>
 

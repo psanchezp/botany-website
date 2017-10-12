@@ -16,4 +16,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.green {
+  background-color: #66BB6A;
+  color: white !important;
+}
 </style>
