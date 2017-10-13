@@ -12,9 +12,10 @@
       <md-button class="md-icon-button">
         <md-icon>account_circle</md-icon>
       </md-button>
-      <md-button href="/" class="md-icon-button">
-        <md-icon>exit_to_app</md-icon>
-      </md-button>
+      <form v-on:submit='logout'>
+        <input class="hidden" v-model='action' type="text" name="action" value="LOGOUT">
+        <input type="submit" value="logout">
+      </form>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
@@ -33,6 +34,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'navbar',
   data () {
@@ -41,7 +44,9 @@ export default {
         { title: 'Clientes', url: '/clients' },
         { title: 'Proveedores', url: '/providers' },
         { title: 'Productos', url: '/products' }
-      ]
+      ],
+      url: 'http://127.0.0.1/botany-back/applicationLayer.php',
+      action: 'LOGOUT'
     }
   },
   methods: {
@@ -51,6 +56,18 @@ export default {
     open (ref) {
     },
     close (ref) {
+    },
+    logout (event) {
+      event.preventDefault()
+      var params = new URLSearchParams()
+      params.append('action', this.logout)
+      axios.post(this.url, params)
+        .then(function (response) {
+          window.location.replace('/')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
