@@ -4,11 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
 import 'vue-material/dist/vue-material.css'
 
 Vue.use(VueMaterial)
-Vue.use(VueResource)
+// Vue.use(VueResource)
 Vue.config.productionTip = false
 
 // Material theme colors

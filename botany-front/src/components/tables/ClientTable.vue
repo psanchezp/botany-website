@@ -57,9 +57,18 @@ export default {
       }
       // var url = 'http://10.23.9.75/BotanyChips/botany-back/applicationLayer.php'
       var url = 'http://localhost/BotanyChips/botany-back/applicationLayer.php'
-      this.$http.post(url, data).then(response => {
-        console.log(response)
-      }, response => {
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        success: function (data) {
+          alert(data)
+        },
+        error: function (errorMessage) {
+          alert('ERROR: ' + errorMessage)
+        }
       })
     }
   }

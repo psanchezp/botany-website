@@ -23,13 +23,31 @@
 		return $result;
 	}
 
+	function SQLGetAllClients($conn) {
+		$query = "SELECT * FROM Client;";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLGetClientInfo($conn, $userName) {
 		$query = "SELECT * FROM Client WHERE username = '$userName';";
 		return mysqli_query($conn, $query);
 	}
 
+	function SQLGetAllProviders($conn) {
+		$query = "SELECT * FROM Provider;";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLGetProviderInfo($conn, $userName) {
 		$query = "SELECT * FROM Provider WHERE username = '$userName';";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLUpdateFullClient($conn, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
+		$query = "UPDATE Client SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'client', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username'";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -69,6 +87,12 @@
 				  WHERE username = '$userName';";
 		}
 
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLUpdateFullProvider($conn, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
+		$query = "UPDATE Provider SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'provider', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username'";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -122,6 +146,12 @@
 	function SQLDeleteProvider($conn, $userName) {
 		$query = "DELETE FROM Provider
 				  WHERE username = '$userName';";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLGetAllProducts($conn) {
+		$query = "SELECT * FROM Product;";
 		$result = $conn->query($query);
 		return $result;
 	}

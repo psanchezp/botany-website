@@ -1,19 +1,31 @@
 <?php
-    header('Accept: application/json');
-    header('Content-type: application/json');
-    require_once __DIR__ . '/dataLayer.php';
+	header('Accept: application/json');
+	header('Content-type: application/json');
+	require_once __DIR__ . '/dataLayer.php';
 
-    $action = $_POST["action"];
+	$action = $_POST["action"];
 
-    switch($action) {
+	switch($action) {
         case "LOGIN"             : loginUser();        break;
         case "LOGOUT"            : logoutUser();       break;
+
         case "REGISTER_CLIENT"   : registerClient();   break;
+        case "UPDATE_CLIENT"     : updateClient();     break;
+        case "READ_CLIENT"       : readClient();       break;
+        case "DELETE_CLIENT"     : deleteClient();     break;
+        case "GET_CLIENTS"       : getAllClients();    break;
+
         case "REGISTER_PROVIDER" : registerProvider(); break;
+        case "UPDATE_PROVIDER"   : updateProvider();   break;
+        case "READ_PROVIDER"     : readProvider();     break;
+        case "DELETE_PROVIDER"   : deleteProvider();   break;
+        case "GET_PROVIDERS"     : getAllProviders();  break;
+
         case "REGISTER_PRODUCT"  : registerProduct();  break;
         case "UPDATE_PRODUCT"    : updateProduct();    break;
         case "READ_PRODUCT"      : readProduct();      break;
         case "DELETE_PRODUCT"    : deleteProduct();    break;
+        case "GET_PRODUCTS"      : getAllProducts();   break;
     }
 
     function loginUser() {
@@ -75,15 +87,80 @@
             $userEmail       = $_POST["userEmail"];
 
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-            
+			
             if ($result["status"] == "SUCCESS") {
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "client");
 
+				echo json_encode($result);
+			} else {
+                errorHandling($result["status"]);
+            }  
+		} else {
+			errorHandling($result["status"]);
+		}
+    }
+
+    function updateClient() {
+        $username        = $_POST["username"];
+        $userPassword    = encryptPassword();
+        $name            = $_POST["name"];
+        $userDescription = $_POST["userDescription"];
+        $userPhone       = $_POST["userPhone"];
+        $userAddress     = $_POST["userAddress"];
+        $userEmail       = $_POST["userEmail"];
+        
+        $result = attemptUpdateClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
+
+        if ($result["status"] == "SUCCESS") { 
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function readClient() {
+        $username = $_POST["username"];
+
+        $result = verifyClientExists($username);
+
+        if ($result["status"] == "SUCCESS") {
+
+            $result = attemptReadClient($username);
+
+            if ($result["status"] == "SUCCESS") { 
                 echo json_encode($result);
             } else {
                 errorHandling($result["status"]);
-            }  
+            }
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function deleteClient() {
+        $username = $_POST["username"];
+
+        $result = verifyClientExists($username);
+
+        if ($result["status"] == "SUCCESS") {
+            $result = attemptDeleteClient($username);
+
+            if ($result["status"] == "SUCCESS") { 
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getAllClients() {
+        $result = attemptGetAllClients();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
         } else {
             errorHandling($result["status"]);
         }
@@ -95,7 +172,7 @@
         $result = verifyUserDoesNotExist($username);
 
         if ($result["status"] == "SUCCESS") {
-            $userPassword    = encryptPassword();
+			$userPassword    = encryptPassword();
             $name            = $_POST["name"];
             $userDescription = $_POST["userDescription"];
             $userPhone       = $_POST["userPhone"];
@@ -103,15 +180,81 @@
             $userEmail       = $_POST["userEmail"];
         
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-            
+			
             if ($result["status"] == "SUCCESS") { 
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "provider");
+				echo json_encode($result);
+			} else {
+                errorHandling($result["status"]);
+            }
+		} else {
+			errorHandling($result["status"]);
+		}
+    }
+
+    function updateProvider() {
+        $username        = $_POST["username"];
+        $userPassword    = encryptPassword();
+        $name            = $_POST["name"];
+        $userDescription = $_POST["userDescription"];
+        $userPhone       = $_POST["userPhone"];
+        $userAddress     = $_POST["userAddress"];
+        $userEmail       = $_POST["userEmail"];
+        
+        $result = attemptUpdateProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
+
+        if ($result["status"] == "SUCCESS") { 
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function readProvider() {
+        $username = $_POST["username"];
+
+        $result = verifyProviderExists($username);
+
+        if ($result["status"] == "SUCCESS") {
+
+            $result = attemptReadProvider($username);
+
+            if ($result["status"] == "SUCCESS") { 
                 echo json_encode($result);
             } else {
                 errorHandling($result["status"]);
             }
         } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function deleteProvider() {
+        $username = $_POST["username"];
+
+        $result = verifyProviderExists($username);
+
+        if ($result["status"] == "SUCCESS") {
+            $result = attemptDeleteProvider($username);
+
+            if ($result["status"] == "SUCCESS") { 
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getAllProviders() {
+        $result = attemptGetAllProviders();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        }
+        else {
             errorHandling($result["status"]);
         }
     }
@@ -191,6 +334,16 @@
         }
     }
 
+    function getAllProducts() {
+        $result = attemptGetAllProducts();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
     function startCookie($username, $userPassword) {
         setcookie("cookieUsername", $username, time() + 3600 * 24 * 20);
         setcookie("cookiePassword", $userPassword, time() + 3600 * 24 * 20);    
@@ -242,14 +395,14 @@
         return $userPassword;
     }
 
-    function errorHandling($errorStatus) {
-        switch ($errorStatus) {
+	function errorHandling($errorStatus) {
+		switch ($errorStatus) {
             case "500" : header("HTTP/1.1 500 No se ha conectado a la base de datos.");
                         die("El servidor esta caído, inténtelo nuevamente.");
-                        break;
+						break;
             case "406" : header("HTTP/1.1 406 Usuario y/o contraseña vacíos.");
                         die("Ingrese un usuario y contraseña válidos.");
-                        break;
+						break;
             case "407" : header('HTTP/1.1 407 Los datos ingresados no coinciden con los guardados.');
                         die("Los datos ingresados no coinciden con los guardados.");
                         break;
@@ -284,20 +437,53 @@
                         die("No existe un producto con ese nombre.");
                         break;
             case "418" : header("HTTP/1.1 418 No se ha podido actualizar el producto");
-                        die("No se ha podido actualizar la informacion del producto.");
+                        die("No se ha podido actualizar la información del producto.");
                         break;
             case "419" : header("HTTP/1.1 419 No se ha podido leer la informacion del producto");
-                        die("No se ha podido leer la informacion del producto.");
+                        die("No se ha podido leer la información del producto.");
                         break;
             case "420" : header("HTTP/1.1 420 No se ha podido eliminar el producto");
                         die("No se ha podido eliminar el producto seleccionado.");
                         break;
-            case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
-                        die("Los datos ingresados no coinciden con un usuario registrado.");
+            case "421" : header("HTTP/1.1 421 Datos vacíos");
+                        die("Ingrese un usuario, contraseña, nombre, descripción, teléfono, dirección y correo válidos.");
                         break;
+            case "422" : header("HTTP/1.1 422 No se ha podido actualizar el cliente");
+                        die("No se ha podido actualizar la información del cliente.");
+                        break;
+            case "423" : header("HTTP/1.1 423 No existe un cliente con ese nombre de usuario.");
+                        die("No existe un cliente con ese nombre de usuario.");
+                        break;
+            case "424" : header("HTTP/1.1 424 No se ha podido leer la informacion del cliente");
+                        die("No se ha podido leer la informacion del cliente.");
+                        break;
+            case "425" : header("HTTP/1.1 425 No se ha podido eliminar el cliente");
+                        die("No se ha podido eliminar el cliente seleccionado.");
+                        break;
+            case "426" : header("HTTP/1.1 426 No se ha podido actualizar el proveedor");
+                        die("No se ha podido actualizar la información del proveedor.");
+                        break;
+            case "427" : header("HTTP/1.1 427 No existe un proveedor con ese nombre de usuario.");
+                        die("No existe un proveedor con ese nombre de usuario.");
+                        break;
+            case "428" : header("HTTP/1.1 428 No se ha podido leer la informacion del proveedor");
+                        die("No se ha podido leer la informacion del proveedor.");
+                        break;
+            case "429" : header("HTTP/1.1 429 No se ha podido eliminar el proveedor");
+                        die("No se ha podido eliminar el proveedor seleccionado.");
+                        break;
+            case "430" : header("HTTP/1.1 430 No se han encontrado clientes");
+                        die("No existen clientes dentro de la base de datos.");
+                        break;
+            case "431" : header("HTTP/1.1 430 No se han encontrado proveedores");
+                        die("No existen proveedores dentro de la base de datos.");
+                        break;
+			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
+                        die("Los datos ingresados no coinciden con un usuario registrado.");
+						break;
             default : header('HTTP/1.1 417 Error en la aplicación.');
                       die("Error en la aplicación.");
                       break;
-        }
-    }
+		}
+	}
 ?>
