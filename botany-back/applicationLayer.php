@@ -7,26 +7,31 @@
 	$action = $_POST["action"];
 
 	switch($action) {
-        case "LOGIN"             : loginUser();        break;
-        case "LOGOUT"            : logoutUser();       break;
+        case "LOGIN"                : loginUser();        break;
+        case "LOGOUT"               : logoutUser();       break;
 
-        case "REGISTER_CLIENT"   : registerClient();   break;
-        case "UPDATE_CLIENT"     : updateClient();     break;
-        case "READ_CLIENT"       : readClient();       break;
-        case "DELETE_CLIENT"     : deleteClient();     break;
-        case "GET_CLIENTS"       : getAllClients();    break;
+        case "REGISTER_CLIENT"      : registerClient();   break;
+        case "UPDATE_CLIENT"        : updateClient();     break;
+        case "READ_CLIENT"          : readClient();       break;
+        case "DELETE_CLIENT"        : deleteClient();     break;
+        case "GET_CLIENTS"          : getAllClients();    break;
 
-        case "REGISTER_PROVIDER" : registerProvider(); break;
-        case "UPDATE_PROVIDER"   : updateProvider();   break;
-        case "READ_PROVIDER"     : readProvider();     break;
-        case "DELETE_PROVIDER"   : deleteProvider();   break;
-        case "GET_PROVIDERS"     : getAllProviders();  break;
+        case "REGISTER_PROVIDER"    : registerProvider(); break;
+        case "UPDATE_PROVIDER"      : updateProvider();   break;
+        case "READ_PROVIDER"        : readProvider();     break;
+        case "DELETE_PROVIDER"      : deleteProvider();   break;
+        case "GET_PROVIDERS"        : getAllProviders();  break;
 
-        case "REGISTER_PRODUCT"  : registerProduct();  break;
-        case "UPDATE_PRODUCT"    : updateProduct();    break;
-        case "READ_PRODUCT"      : readProduct();      break;
-        case "DELETE_PRODUCT"    : deleteProduct();    break;
-        case "GET_PRODUCTS"      : getAllProducts();   break;
+        case "REGISTER_PRODUCT"     : registerProduct();  break;
+        case "UPDATE_PRODUCT"       : updateProduct();    break;
+        case "READ_PRODUCT"         : readProduct();      break;
+        case "DELETE_PRODUCT"       : deleteProduct();    break;
+        case "GET_PRODUCTS"         : getAllProducts();   break;
+
+        case "CREATE_TRANSACTION"   : createTransaction(); break;
+        case "UPDATE_TRANSACTION"   : updateTransaction(); break;
+        case "DELETE_TRANSACTION"   : deleteTransaction(); break;
+        case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
     }
 
     function loginUser() {
@@ -345,6 +350,75 @@
         }
     }
 
+    /*
+        case "CREATE_TRANSACTION"   : createTransaction(); break;
+        case "UPDATE_TRANSACTION"   : updateTransaction(); break;
+        case "DELETE_TRANSACTION"   : deleteTransaction(); break;
+        case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
+    */
+
+    function createTransaction($transactionType, $username, $productName, $transactionDate, $state, $quantity, $description) {
+        $productName = $_POST["productName"];
+        $result = verifyProductExists($productName);
+
+        if ($result["status"] == "SUCCESS") {
+            $username = $_POST["username"];
+            $transactionType = $_POST["transactionType"];
+
+            if (strtolower($transactionType) == "sale") {
+                $result = verifyClientExists($username);
+                if ($result["status"] == "SUCCESS") {
+                    $transactionDate = $_POST["transactionDate"];
+                    $state           = $_POST["state"];
+                    $quantity        = $_POST["quantity"];
+                    $description     = $_POST["description"];
+
+                    $result = attemptCreateSale($username, $productName, $transactionDate, $state, $quantity, $description);
+                    if ($result["status"] == "SUCCESS") {
+                        echo json_encode($result);
+                    } else {
+                        errorHandling($result["status"]);
+                    }
+                } else {
+                    errorHandling($response["status"]);
+                }
+            } else if (strtolower($transactionType) == "purchase") {
+                $result = verifyProviderExists($username);
+                if ($result["status"] == "SUCCESS") {
+                    $transactionDate = $_POST["transactionDate"];
+                    $state           = $_POST["state"];
+                    $quantity        = $_POST["quantity"];
+                    $description     = $_POST["description"];
+
+                    $result = attemptCreatePurchase($username, $productName, $transactionDate, $state, $quantity, $description);
+                    if ($result["status"] == "SUCCESS") {
+                        echo json_encode($result);
+                    } else {
+                        errorHandling($result["status"]);
+                    }
+                } else {
+                    errorHandling($response["status"]);
+                }
+            } else {
+                errorHandling("432");
+            }
+        } else {
+            errorHandling($response["status"]);
+        }
+    }
+
+    function updateTransaction() {
+
+    }
+
+    function deleteTransaction() {
+
+    }
+
+    function finalizeTransaction() {
+
+    }
+
     function startCookie($username, $userPassword) {
         setcookie("cookieUsername", $username, time() + 3600 * 24 * 20);
         setcookie("cookiePassword", $userPassword, time() + 3600 * 24 * 20);    
@@ -371,7 +445,6 @@
         $userPassword = base64_encode($ciphertext);
 
         return $userPassword;
-        
     }
 
     function decryptPassword($userPassword) {
@@ -476,8 +549,11 @@
             case "430" : header("HTTP/1.1 430 No se han encontrado clientes");
                         die("No existen clientes dentro de la base de datos.");
                         break;
-            case "431" : header("HTTP/1.1 430 No se han encontrado proveedores");
+            case "431" : header("HTTP/1.1 431 No se han encontrado proveedores");
                         die("No existen proveedores dentro de la base de datos.");
+                        break;
+            case "432" : header("HTTP/1.1 432 Tipo de transaccion inválida.");
+                        die("El tipo de transaccion seleccionado no es válido.");
                         break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
