@@ -356,6 +356,18 @@
 		return $row['state'];
 	}
 
+	function SQLUpdateFullPurchase($conn, $purchaseID, $providerUsername, $productID, $transactionDate, $state, $quantity, $description) {
+		$query = "UPDATE Purchases SET prov_username = '$providerUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$purchaseID'";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLUpdateFullSale($conn, $saleID, $clientUsername, $productID, $transactionDate, $state, $quantity, $description) {
+		$query = "UPDATE Sales SET client_username = '$clientUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$saleID'";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLUpdatePurchase($conn, $purchaseID, $column, $value) {
 		// First verify that the transaction is not finalized
 		if (PurchaseIsFinalized($conn, $purchaseID)) {
