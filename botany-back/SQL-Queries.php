@@ -328,14 +328,14 @@
 		return $result;
 	}
 
-	function SQLRegisterPurchase($conn, $providerUsername, $productID, $transactionDate, $quantity, $description) {
-		$query = "INSERT INTO Purchases VALUES (DEFAULT, '$providerUsername', '$productID', '$transactionDate', 0, '$quantity', '$description');";
+	function SQLRegisterPurchase($conn, $providerUsername, $productID, $transactionDate, $state, $quantity, $description) {
+		$query = "INSERT INTO Purchases VALUES (DEFAULT, '$providerUsername', '$productID', '$transactionDate', '$state', '$quantity', '$description');";
 		$result = $conn->query($query);
 		return $result;
 	}
 
-	function SQLRegisterSale($conn, $clientUsername, $productID, $transactionDate, $quantity, $description) {
-		$query = "INSERT INTO Sales VALUES (DEFAULT, '$clientUsername', '$productID', '$transactionDate', 0, '$quantity', '$description');";
+	function SQLRegisterSale($conn, $clientUsername, $productID, $transactionDate, $state, $quantity, $description) {
+		$query = "INSERT INTO Sales VALUES (DEFAULT, '$clientUsername', '$productID', '$transactionDate', '$state', '$quantity', '$description');";
 		$result = $conn->query($query);
 		return $result;
 	}
