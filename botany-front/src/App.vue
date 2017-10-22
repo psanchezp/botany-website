@@ -26,4 +26,8 @@ export default {
   background-color: #F44336;
   color: white !important;
 }
+
+.hidden {
+  display: none;
+}
 </style>

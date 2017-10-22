@@ -1,16 +1,16 @@
 <template>
-  <div class="add-button">
-    <md-button class="md-icon-button md-raised green" href="#">
-      <md-icon>
-        add
-      </md-icon>
-    </md-button>
-  </div>
+  <!-- <md-button class="md-icon-button md-raised green">
+    <md-icon>
+      add
+    </md-icon>
+  </md-button> -->
+  <router-link :to="'link'"></router-link>
 </template>
 
 <script>
 export default {
   name: 'add-button',
+  props: ['link'],
   data () {
     return {
     }
@@ -21,6 +21,5 @@ export default {
 <style scoped>
 .add-button {
   text-align: right;
-  margin: 2em 2em 0 0;
 }
 </style>

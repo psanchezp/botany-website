@@ -38,10 +38,13 @@
 import DeleteButton from '@/components/buttons/DeleteButton'
 import EditButton from '@/components/buttons/EditButton'
 
+// import axios from 'axios'
+
 export default {
   name: 'client-table',
   data () {
     return {
+      url: 'http://127.0.0.1/botany-back/applicationLayer.php'
     }
   },
   components: {
@@ -52,24 +55,20 @@ export default {
   },
   methods: {
     getClientList () {
-      var data = {
-        action: 'GET_CLIENTS'
-      }
-      // var url = 'http://10.23.9.75/BotanyChips/botany-back/applicationLayer.php'
-      var url = 'http://localhost/BotanyChips/botany-back/applicationLayer.php'
-      $.ajax({
-        url: url,
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded',
-        success: function (data) {
-          alert(data)
-        },
-        error: function (errorMessage) {
-          alert('ERROR: ' + errorMessage)
-        }
-      })
+      // var url = 'http://localhost/botany-back/applicationLayer.php'
+      // axios.get(url, { action: 'GET_CLIENTS' })
+      // axios({
+      //   method: 'post',
+      //   url: url,
+      //   dataType: 'json',
+      //   contentType: 'application/x-www-form-urlencoded',
+      //   headers: { 'action': 'GET_CLIENTS' },
+      //   data: {
+      //     'action': 'GET_CLIENTS'
+      //   }
+      // }).then(function (response) {
+      //   console.log(response)
+      // })
     }
   }
 }

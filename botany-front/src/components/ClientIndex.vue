@@ -1,7 +1,8 @@
 <template>
   <div class="client-index">
     <nav-bar></nav-bar>
-    <add-button></add-button>
+    <md-button></md-button>
+    <add-button :link-prop='link'></add-button>
     <client-table></client-table>
   </div>
 </template>
@@ -15,7 +16,8 @@ export default {
   name: 'client-index',
   data () {
     return {
-      msg: 'Hello!'
+      msg: 'Hello!',
+      link: '/new/client/x'
     }
   },
   components: {

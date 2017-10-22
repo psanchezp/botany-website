@@ -1,11 +1,11 @@
 <template>
-  <div id="product-form">
+  <div id="form-fields">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'product-form'
+  name: 'form-fields'
 }
 </script>
 
