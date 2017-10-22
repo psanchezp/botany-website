@@ -43,7 +43,6 @@ CREATE TABLE Purchases (
     state BOOLEAN NOT NULL, -- finalized or not
     quantity INT NOT NULL,
     description VARCHAR(200),
-    type VARCHAR(10), -- Sale or Purchase
     FOREIGN KEY (prov_username) REFERENCES Provider (username)
         ON UPDATE CASCADE,
     FOREIGN KEY (prod_id) REFERENCES Product (ID)
@@ -58,7 +57,6 @@ CREATE TABLE Sales (
     state BOOLEAN NOT NULL, -- finalized or not
     quantity INT NOT NULL,
     description VARCHAR(200),
-    type VARCHAR(10), -- Sale or Purchase
     FOREIGN KEY (client_username) REFERENCES Client (username)
         ON UPDATE CASCADE,
     FOREIGN KEY (prod_id) REFERENCES Product (ID)
