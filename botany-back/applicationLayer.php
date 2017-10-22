@@ -357,7 +357,7 @@
         case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
     */
 
-    function createTransaction($transactionType, $username, $productName, $transactionDate, $state, $quantity, $description) {
+    function createTransaction() {
         $productName = $_POST["productName"];
         $result = verifyProductExists($productName);
 
