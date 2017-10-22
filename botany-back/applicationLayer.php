@@ -555,6 +555,9 @@
             case "432" : header("HTTP/1.1 432 Tipo de transaccion inválida.");
                         die("El tipo de transaccion seleccionado no es válido.");
                         break;
+            case "433" : header("HTTP/1.1 411 No se ha podido registrar la venta.");
+                        die("No se ha podido registrar la venta con el cliente.");
+                        break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
 						break;
