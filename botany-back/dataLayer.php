@@ -168,7 +168,7 @@
                 $result = SQLUpdateFullClient($connection, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
 
                 if ($result) {
-                    $response = array("status" => "SUCCESS", "username" = $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'client', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
+                    $response = array("status" => "SUCCESS", "username" => $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'client', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
                     $connection->close();
                     return $response;
                 } else {
