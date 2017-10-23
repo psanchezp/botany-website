@@ -524,4 +524,25 @@
             return array("status" => "500");
         }
     }
+
+    function attemptUpdateSale($saleID, $clientUsername, $productName, $transactionDate, $state, $quantity, $description) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+
+            $result = SQLUpdateFullSale($connection, $saleID, $clientUsername, SQLGetProductIDFromName($connection, $productName), $transactionDate, $state, $quantity, $description);
+
+            if ($result) {
+                $response = array("status" => "SUCCESS", "saleID" => $saleID, "username" => $clientUsername, "productName" => $productName, "transactionDate" => $transactionDate, "description" => $description, "state" => $state, "quantity" => $quantity, "transactionType" => "sale");
+
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "435");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
