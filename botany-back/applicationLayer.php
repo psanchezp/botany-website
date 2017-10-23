@@ -362,17 +362,17 @@
         $result = verifyProductExists($productName);
 
         if ($result["status"] == "SUCCESS") {
-            $username = $_POST["username"];
+            $username        = $_POST["username"];
             $transactionType = $_POST["transactionType"];
+            $transactionDate = $_POST["transactionDate"];
+            $state           = $_POST["state"];
+            $quantity        = $_POST["quantity"];
+            $description     = $_POST["description"];
 
             if (strtolower($transactionType) == "sale") {
                 $result = verifyClientExists($username);
                 if ($result["status"] == "SUCCESS") {
-                    $transactionDate = $_POST["transactionDate"];
-                    $state           = $_POST["state"];
-                    $quantity        = $_POST["quantity"];
-                    $description     = $_POST["description"];
-
+                    
                     $result = attemptCreateSale($username, $productName, $transactionDate, $state, $quantity, $description);
                     if ($result["status"] == "SUCCESS") {
                         echo json_encode($result);
@@ -385,10 +385,6 @@
             } else if (strtolower($transactionType) == "purchase") {
                 $result = verifyProviderExists($username);
                 if ($result["status"] == "SUCCESS") {
-                    $transactionDate = $_POST["transactionDate"];
-                    $state           = $_POST["state"];
-                    $quantity        = $_POST["quantity"];
-                    $description     = $_POST["description"];
 
                     $result = attemptCreatePurchase($username, $productName, $transactionDate, $state, $quantity, $description);
                     if ($result["status"] == "SUCCESS") {
@@ -408,7 +404,55 @@
     }
 
     function updateTransaction() {
+        $transactionID = $_POST["transactionID"];
+        $result = verifyTransactionExists($transactionID);
+        if ($result["status"] == "SUCCESS") {
+            $username        = $_POST["username"];
+            $transactionType = $_POST["transactionType"];
+            $productName     = $_POST["productName"];
+            $transactionDate = $_POST["transactionDate"];
+            $state           = $_POST["state"];
+            $quantity        = $_POST["quantity"];
+            $description     = $_POST["description"];
 
+            $result = verifyProductExists($productName);
+
+            if ($result["status"] == "SUCCESS") {
+                if (strtolower($transactionType) == "sale") {
+                    $result = verifyClientExists($username);
+                    if ($result["status"] == "SUCCESS") {
+                        
+                        $result = attemptUpdateSale($transactionID, $username, $productName, $transactionDate, $state, $quantity, $description);
+                        if ($result["status"] == "SUCCESS") {
+                            echo json_encode($result);
+                        } else {
+                            errorHandling($result["status"]);
+                        }
+                    } else {
+                        errorHandling($response["status"]);
+                    }
+                } else if (strtolower($transactionType) == "purchase") {
+                    $result = verifyProviderExists($username);
+                    if ($result["status"] == "SUCCESS") {
+
+                        $result = attemptUpdatePurchase($transactionID, $username, $productName, $transactionDate, $state, $quantity, $description);
+                        if ($result["status"] == "SUCCESS") {
+                            echo json_encode($result);
+                        } else {
+                            errorHandling($result["status"]);
+                        }
+                    } else {
+                        errorHandling($response["status"]);
+                    }
+                } else {
+                    errorHandling("432");
+                }
+            } else {
+                errorHandling($response["status"]);
+            }
+        } else {
+            errorHandling($response["status"]);
+        }
     }
 
     function deleteTransaction() {
