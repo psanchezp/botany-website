@@ -566,4 +566,43 @@
             return array("status" => "500");
         }
     }
+
+    function attemptDeleteTransaction($transactionID) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+            $result = SQLGetPurchase($connection, $transactionID);
+            if ($result) {
+                $result = SQLDeletePurchase($connection, $transactionID);
+                if ($result) {
+                    $response = array("status" => "SUCCESS", "id" => $transactionID);
+
+                    $connection->close();
+                    return $response;
+                } else {
+                    $connection->close();
+                    return array("status" => "438");
+                }
+            } else {
+                $result = SQLGetSale($connection, $transactionID);
+                if ($result) {
+                    $result = SQLDeleteSale($connection, $transactionID);
+                    if ($result) {
+                        $response = array("status" => "SUCCESS", "id" => $transactionID);
+
+                        $connection->close();
+                        return $response;
+                    } else {
+                        $connection->close();
+                     return array("status" => "439");
+                    }
+                } else {
+                    $connection->close();
+                    return array("status" => "437");
+                }
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
