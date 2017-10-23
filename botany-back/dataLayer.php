@@ -133,6 +133,32 @@
         }
     }
 
+    function verifyTransactionExists($transactionID) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+            $result = SQLGetPurchase($connection, $transactionID);
+
+            if ($result->num_rows > 0) {
+                $response = array("status" => "SUCCESS");
+                $connection->close();
+                return $response;
+            } else {
+                $result = SQLGetSale($connection, $transactionID);
+                if ($result->num_rows > 0) {
+                    $response = array("status" => "SUCCESS");
+                    $connection->close();
+                    return $response;
+                } else {
+                    $connection->close();
+                    return array("status" => "437");
+                }
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
     function attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
         $connection = connectionToDataBase();
 
