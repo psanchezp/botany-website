@@ -456,7 +456,18 @@
     }
 
     function deleteTransaction() {
-
+        $transactionID = $_POST["transactionID"];
+        $result = verifyTransactionExists($transactionID);
+        if ($result["status"] == "SUCCESS") {
+            $result = attemptDeleteTransaction($transaccionID);
+            if ($result["status"] == "SUCCESS") {
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($response["status"]);
+        }
     }
 
     function finalizeTransaction() {
