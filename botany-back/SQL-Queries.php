@@ -287,6 +287,18 @@
 		return $result;
 	}
 
+	function SQLGetPurchase($conn, $transactionID) {
+		$query = "SELECT * FROM Purchases WHERE ID = '$transactionID';";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLGetSale($conn, $transactionID) {
+		$query = "SELECT * FROM Sales WHERE ID = '$transactionID';";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLGetTransactionsWithClient($conn, $userName) {
 		$query = "SELECT * FROM Sales WHERE client_username = '$userName';";
 		$result = $conn->query($query);
