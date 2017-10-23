@@ -471,7 +471,18 @@
     }
 
     function finalizeTransaction() {
-
+        $transactionID = $_POST["transactionID"];
+        $result = verifyTransactionExists($transactionID);
+        if ($result["status"] == "SUCCESS") {
+            $result = attemptFinalizeTransaction($transactionID);
+            if ($result["status"] == "SUCCESS") {
+                echo json_encode($result);
+            } else {
+                errorHandling($result["status"]);
+            }
+        } else {
+            errorHandling($response["status"]);
+        }
     }
 
     function startCookie($username, $userPassword) {
