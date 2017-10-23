@@ -622,6 +622,15 @@
             case "436" : header("HTTP/1.1 436 No se ha podido actualizar la compra.");
                         die("No se ha podido actualizar la compra con el proveedor.");
                         break;
+            case "437" : header("HTTP/1.1 437 No se ha encontrado la transacción.");
+                        die("No se ha encontrado la transacción.");
+                        break;
+            case "438" : header("HTTP/1.1 438 No se ha podido eliminar la compra.");
+                        die("No se ha podido eliminar la compra.");
+                        break;
+            case "439" : header("HTTP/1.1 439 No se ha podido eliminar la venta.");
+                        die("No se ha podido eliminar la venta.");
+                        break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
 						break;
