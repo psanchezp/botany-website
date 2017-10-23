@@ -642,6 +642,9 @@
             case "439" : header("HTTP/1.1 439 No se ha podido eliminar la venta.");
                         die("No se ha podido eliminar la venta.");
                         break;
+            case "440" : header("HTTP/1.1 439 No se ha podido finalizar la transacción.");
+                        die("No se ha podido finalizar la transacción.");
+                        break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
 						break;
