@@ -631,4 +631,41 @@
             return array("status" => "500");
         }
     }
+
+    function attemptFinalizeTransaction($transactionID) {
+        if ($connection != null) {
+            $result = SQLGetPurchase($connection, $transactionID);
+            if ($result) {
+                $result = SQLFinalizePurchase($connection, $transactionID)
+                if ($result) {
+                    $response = array("status" => "SUCCESS", "id" => $transactionID, "state" => "finalized");
+
+                    $connection->close();
+                    return $response;
+                } else {
+                    $connection->close();
+                    return array("status" => "440");
+                }
+            } else {
+                $result = SQLGetSale($connection, $transactionID);
+                if ($result) {
+                    $result = SQLFinalizeSale($connection, $transactionID);
+                    if ($result) {
+                        $response = array("status" => "SUCCESS", "id" => $transactionID, "state" => "finalized");
+
+                        $connection->close();
+                        return $response;
+                    } else {
+                        $connection->close();
+                     return array("status" => "440");
+                    }
+                } else {
+                    $connection->close();
+                    return array("status" => "437");
+                }
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
