@@ -459,7 +459,7 @@
         $transactionID = $_POST["transactionID"];
         $result = verifyTransactionExists($transactionID);
         if ($result["status"] == "SUCCESS") {
-            $result = attemptDeleteTransaction($transaccionID);
+            $result = attemptDeleteTransaction($transactionID);
             if ($result["status"] == "SUCCESS") {
                 echo json_encode($result);
             } else {
