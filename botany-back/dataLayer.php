@@ -217,7 +217,7 @@
             $result = SQLGetClientInfo($connection, $userName);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "username" = $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'client', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
+                $response = array("status" => "SUCCESS", "username" => $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'client', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
                 
                 $connection->close();
                 return $response;
@@ -261,7 +261,7 @@
             $response = array();
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    array_push($response, array("username" = $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'client', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
+                    array_push($response, array("username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'client', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
                 }
 
                 $connection->close();
@@ -310,7 +310,7 @@
                 $result = SQLUpdateFullProvider($connection, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
 
                 if ($result) {
-                    $response = array("status" => "SUCCESS", "username" = $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'provider', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
+                    $response = array("status" => "SUCCESS", "username" => $username, "passwrd" => $userPassword, "name" => $name, "description" => $userDescription, "type" => 'provider', "phone" => $userPhone, "address" => $userAddress, "email" => $userEmail);
                     $connection->close();
                     return $response;
                 } else {
@@ -333,7 +333,7 @@
             $result = SQLGetProviderInfo($connection, $userName);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "username" = $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'provider', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
+                $response = array("status" => "SUCCESS", "username" => $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'provider', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
                 
                 $connection->close();
                 return $response;
@@ -377,7 +377,7 @@
             $response = array();
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    array_push($response, array("username" = $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'provider', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
+                    array_push($response, array("username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'provider', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
                 }
 
                 $connection->close();
