@@ -1,6 +1,6 @@
 <?php
 
-    require_once __DIR__ . '/SQL-Queries.php';
+    require_once __DIR__ . '/c';
 
 	function connectionToDataBase() {
 		$servername = "localhost";
