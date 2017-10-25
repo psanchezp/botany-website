@@ -26,7 +26,7 @@
       </md-toolbar>
       <ul>
         <li v-for="option in options">
-          <a :href="option.url">{{ option.title }}</a>
+          <router-link :to="option.url">{{ option.title }}</router-link>
         </li>
       </ul>
     </md-sidenav>

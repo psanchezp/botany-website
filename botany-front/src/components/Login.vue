@@ -14,13 +14,11 @@
         </form>
       </md-layout>
     </md-layout>
-    <!-- <login-button></login-button> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import LoginButton from '@/components/LoginButton'
 
 export default {
   name: 'login',
@@ -34,9 +32,6 @@ export default {
       rememberMe: false,
       action: 'LOGIN'
     }
-  },
-  components: {
-    LoginButton
   },
   methods: {
     login (event) {
