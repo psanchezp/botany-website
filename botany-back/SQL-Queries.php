@@ -175,14 +175,14 @@
 	}
 
 	function SQLGetProductInfoFromName($conn, $productName) {
-		$productID = GetProductIDFromName($conn, $productName);
+		$productID = SQLGetProductIDFromName($conn, $productName);
 		$query = "SELECT * FROM Product WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function SQLUpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
-		$productID = GetProductIDFromName($conn, $oldProductName);
+		$productID = SQLGetProductIDFromName($conn, $oldProductName);
 		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID'";
 		$result = $conn->query($query);
 		return $result;
@@ -212,7 +212,7 @@
 	}
 
 	function SQLUpdateProductWithName($conn, $productName, $column, $value) {
-		$productID = GetProductIDFromName($conn, $productName);
+		$productID = SQLGetProductIDFromName($conn, $productName);
 		
 		if (strtolower($column) == "name") {
 			$query = "UPDATE Product
@@ -244,7 +244,7 @@
 	}
 
 	function SQLDeleteProductWithName($conn, $productName) {
-		$productID = GetProductIDFromName($conn, $productName);
+		$productID = SQLGetProductIDFromName($conn, $productName);
 		$query = "DELETE FROM Product
 				  WHERE ID = '$productID';";
 		$result = $conn->query($query);
@@ -320,7 +320,7 @@
 	}
 
 	function SQLGetTransactionsWithProductName($conn, $productName) {
-		$productID = GetProductIDFromName($conn, $productName);
+		$productID = SQLGetProductIDFromName($conn, $productName);
 		$query = "SELECT * FROM Purchases WHERE prod_id = '$productID'
 				  UNION
 				  SELECT * FROM Sales WHERE prod_id = '$productID';";
