@@ -283,7 +283,7 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -318,7 +318,7 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -336,7 +336,7 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -380,7 +380,7 @@
                         errorHandling($result["status"]);
                     }
                 } else {
-                    errorHandling($response["status"]);
+                    errorHandling($result["status"]);
                 }
             } else if (strtolower($transactionType) == "purchase") {
                 $result = verifyProviderExists($username);
@@ -393,13 +393,13 @@
                         errorHandling($result["status"]);
                     }
                 } else {
-                    errorHandling($response["status"]);
+                    errorHandling($result["status"]);
                 }
             } else {
                 errorHandling("432");
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -429,7 +429,7 @@
                             errorHandling($result["status"]);
                         }
                     } else {
-                        errorHandling($response["status"]);
+                        errorHandling($result["status"]);
                     }
                 } else if (strtolower($transactionType) == "purchase") {
                     $result = verifyProviderExists($username);
@@ -442,16 +442,16 @@
                             errorHandling($result["status"]);
                         }
                     } else {
-                        errorHandling($response["status"]);
+                        errorHandling($result["status"]);
                     }
                 } else {
                     errorHandling("432");
                 }
             } else {
-                errorHandling($response["status"]);
+                errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -466,7 +466,7 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
@@ -481,7 +481,7 @@
                 errorHandling($result["status"]);
             }
         } else {
-            errorHandling($response["status"]);
+            errorHandling($result["status"]);
         }
     }
 
