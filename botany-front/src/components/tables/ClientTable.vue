@@ -1,75 +1,83 @@
 <template>
-  <div class="client-table">
-    <md-layout md-gutter>
-      <md-layout md-flex="70" md-flex-offset="15">
-        <md-table v-once>
-          <md-table-header>
-            <md-table-row>
-              <md-table-head>Nombre</md-table-head>
-              <md-table-head>Correo</md-table-head>
-              <md-table-head>Telefono</md-table-head>
-              <md-table-head>Editar</md-table-head>
-              <md-table-head>Borrar</md-table-head>
-            </md-table-row>
-          </md-table-header>
-
-          <md-table-body>
-            <md-table-row v-for="(row, index) in 3" :key="index">
-              <md-table-cell>
-                <a class="md-transparent" href="/client/x">
-                  Juanito
-                </a>
-              </md-table-cell>
-              <md-table-cell>juan@juan.com</md-table-cell>
-              <md-table-cell>8115433345</md-table-cell>
-              <md-table-cell>
-                <edit-button link-prop="/edit/client/x"></edit-button>
-              </md-table-cell>
-              <md-table-cell><delete-button></delete-button></md-table-cell>
-            </md-table-row>
-          </md-table-body>
-        </md-table>
-      </md-layout>
-    </md-layout>
-  </div>
+  <md-table class="client-table" v-once>
+    <md-table-header>
+      <md-table-row>
+        <md-table-head>Usuario</md-table-head>
+        <md-table-head>Nombre</md-table-head>
+        <md-table-head>Descripción</md-table-head>
+        <md-table-head>Telefono</md-table-head>
+        <md-table-head>Dirección</md-table-head>
+        <md-table-head>Correo</md-table-head>
+        <md-table-head>Editar</md-table-head>
+        <md-table-head>Borrar</md-table-head>
+        <md-table-head>Información</md-table-head>
+      </md-table-row>
+    </md-table-header>
+    <md-table-body>
+      <md-table-row v-for="item of clientItems" :key="item.name">
+        <md-table-cell>
+          {{ item.username }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.name }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.description }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.phone }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.address }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.email }}
+        </md-table-cell>
+        <md-table-cell>
+          <edit-button
+            model="clients"
+            :name="item.name"
+          >
+          </edit-button>
+        </md-table-cell>
+        <md-table-cell>
+          <delete-button
+            :variable="variable"
+            :name="item.name"
+            :action="action"
+          >  
+          </delete-button>
+        </md-table-cell>
+        <md-table-cell>
+          <info-button
+            model="clients"
+            :name="item.username"
+          >
+          </info-button>
+        </md-table-cell>
+      </md-table-row>
+    </md-table-body>
+  </md-table>
 </template>
 
 <script>
 import DeleteButton from '@/components/buttons/DeleteButton'
 import EditButton from '@/components/buttons/EditButton'
-
-// import axios from 'axios'
+import InfoButton from '@/components/buttons/InfoButton'
 
 export default {
   name: 'client-table',
   data () {
     return {
-      url: 'http://127.0.0.1/botany-back/applicationLayer.php'
+      variable: 'username',
+      action: 'DELETE_CLIENT'
     }
   },
   components: {
-    DeleteButton, EditButton
+    DeleteButton, EditButton, InfoButton
   },
-  created: function () {
-    this.getClientList()
-  },
-  methods: {
-    getClientList () {
-      // var url = 'http://localhost/botany-back/applicationLayer.php'
-      // axios.get(url, { action: 'GET_CLIENTS' })
-      // axios({
-      //   method: 'post',
-      //   url: url,
-      //   dataType: 'json',
-      //   contentType: 'application/x-www-form-urlencoded',
-      //   headers: { 'action': 'GET_CLIENTS' },
-      //   data: {
-      //     'action': 'GET_CLIENTS'
-      //   }
-      // }).then(function (response) {
-      //   console.log(response)
-      // })
-    }
+  props: {
+    clientItems: Array
   }
 }
 </script>
