@@ -28,10 +28,16 @@
         case "DELETE_PRODUCT"       : deleteProduct();    break;
         case "GET_PRODUCTS"         : getAllProducts();   break;
 
-        case "CREATE_TRANSACTION"   : createTransaction(); break;
-        case "UPDATE_TRANSACTION"   : updateTransaction(); break;
-        case "DELETE_TRANSACTION"   : deleteTransaction(); break;
+        case "CREATE_TRANSACTION"   : createTransaction();   break;
+        case "UPDATE_TRANSACTION"   : updateTransaction();   break;
+        case "DELETE_TRANSACTION"   : deleteTransaction();   break;
         case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
+
+        case "GET_TRANSACTIONS"                 : getAllTransactions();             break;
+        case "GET_FINALIZED_TRANSACTIONS"       : getFinalizedTransactions();       break;
+        case "GET_NONFINALIZED_TRANSACTIONS"    : getNonFinalizedTransactions();    break;
+        case "GET_TRANSACTIONS_BY_CLIENT"       : getClientTransactions();          break;
+        case "GET_TRANSACTIONS_BY_PROVIDER"     : getProviderTransactions();        break;
     }
 
     function loginUser() {
@@ -350,13 +356,6 @@
         }
     }
 
-    /*
-        case "CREATE_TRANSACTION"   : createTransaction(); break;
-        case "UPDATE_TRANSACTION"   : updateTransaction(); break;
-        case "DELETE_TRANSACTION"   : deleteTransaction(); break;
-        case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
-    */
-
     function createTransaction() {
         $productName = $_POST["productName"];
         $result = verifyProductExists($productName);
@@ -480,6 +479,58 @@
             } else {
                 errorHandling($result["status"]);
             }
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getAllTransactions() {
+        $result = attemptGetAllTransactions();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getFinalizedTransactions() {
+        $result = attemptGetFinalizedTransactions();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getNonFinalizedTransactions() {
+        $result = attemptGetNonFinalizedTransactions();
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getProviderTransactions() {
+        $username = $_POST["username"];
+        $result = attemptGetProviderTransactions($username);
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function getClientTransactions() {
+        $username = $_POST["username"];
+        $result = attemptGetClientTransactions($username);
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
         } else {
             errorHandling($result["status"]);
         }

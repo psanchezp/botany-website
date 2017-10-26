@@ -662,4 +662,157 @@
             return array("status" => "500");
         }
     }
+
+    function attemptGetAllTransactions() {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           
+            $result = SQLGetAllPurchases($connection);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+                       
+            $result = SQLGetAllSales($connection);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['client_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptGetFinalizedTransactions() {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           
+            $result = SQLGetAllFinalizedPurchases($connection);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+             
+            $result = SQLGetAllFinalizedSales($connection);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['client_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
+    
+    function attemptGetNonFinalizedTransactions() {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+           
+            $result = SQLGetAllNonFinalizedPurchases($connection);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+             
+            $result = SQLGetAllNonFinalizedSales($connection);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['client_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptGetClientTransactions($username) {
+        $connection = connectionToDataBase();
+        
+        if ($connection != null) {
+           
+            $result = SQLGetTransactionsWithClient($connection, $username);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['client_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptGetProviderTransactions($username) {
+        $connection = connectionToDataBase();
+        
+        if ($connection != null) {
+           
+            $result = SQLGetTransactionsWithProvider($connection, $username);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $name, "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
