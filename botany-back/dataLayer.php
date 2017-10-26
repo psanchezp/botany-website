@@ -264,13 +264,10 @@
                 while ($row = $result->fetch_assoc()) {
                     array_push($response, array("username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'client', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
                 }
-
-                $connection->close();
-                return array("status" => "SUCCESS", "clients" => $response);
-            } else {
-                $connection->close();
-                return array("status" => "430");
             }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "clients" => $response);
         } else {
             return array("status" => "500");
         }
@@ -381,13 +378,10 @@
                 while ($row = $result->fetch_assoc()) {
                     array_push($response, array("username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'provider', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']));
                 }
-
-                $connection->close();
-                return array("status" => "SUCCESS", "providers" => $response);
-            } else {
-                $connection->close();
-                return array("status" => "431");
             }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "providers" => $response);
         } else {
             return array("status" => "500");
         }
@@ -499,14 +493,11 @@
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     array_push($response, array("name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price']));
-                }
-
-                $connection->close();
-                return array("status" => "SUCCESS", "products" => $response);
-            } else {
-                $connection->close();
-                return array("status" => "419");
+                }    
             }
+            
+            $connection->close();
+            return array("status" => "SUCCESS", "products" => $response);
         } else {
             return array("status" => "500");
         }
