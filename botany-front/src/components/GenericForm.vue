@@ -13,6 +13,8 @@
 
 <script>
   import ProductForm from '@/components/forms/ProductForm'
+  import ProviderForm from '@/components/forms/ProviderForm'
+  import ClientForm from '@/components/forms/ClientForm'
   // import axios from 'axios'
 
   export default {
@@ -20,11 +22,11 @@
     data () {
       return {
         url: 'http://127.0.0.1/botany-back/applicationLayer.php',
-        model: 'products'
+        model: this.$route.params.model
       }
     },
     components: {
-      ProductForm
+      ProductForm, ProviderForm, ClientForm
     },
     computed: {
       translatedModel: function () {

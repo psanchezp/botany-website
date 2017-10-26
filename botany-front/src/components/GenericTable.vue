@@ -1,10 +1,13 @@
 <template>
   <div class="generic-table">
     <md-layout md-gutter>
-      <md-layout v-if="dataLoaded" md-flex="70" md-flex-offset="15">
+      <md-layout v-if="dataLoaded" md-flex="80" md-flex-offset="10">
         <client-table :client-items="itemList" v-if="model === 'clients'"></client-table>
         <provider-table :provider-items="itemList" v-if="model === 'providers'"></provider-table>
         <product-table :product-items="itemList" v-if="model === 'products'"></product-table>
+      </md-layout>
+      <md-layout v-if="dataError" md-flex="70" md-flex-offset="15">
+        <h5>{{ errorMessage }}</h5>
       </md-layout>
     </md-layout>
   </div>
@@ -25,7 +28,9 @@ export default {
     return {
       url: 'http://127.0.0.1/botany-back/applicationLayer.php',
       itemList: [],
-      dataLoaded: false
+      dataLoaded: false,
+      dataError: false,
+      errorMessage: ''
     }
   },
   components: {
@@ -47,8 +52,9 @@ export default {
           this.dataLoaded = true
         }.bind(this))
         .catch(function (error) {
-          console.log(error)
-        })
+          this.errorMessage = error.response.data
+          this.dataError = true
+        }.bind(this))
     },
     getAction (model) {
       switch (model) {
