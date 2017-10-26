@@ -217,7 +217,8 @@
             $result = SQLGetClientInfo($connection, $userName);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "username" => $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'client', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
+                $row = $result->fetch_assoc();
+                $response = array("status" => "SUCCESS", "username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'client', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']);
                 
                 $connection->close();
                 return $response;
@@ -333,7 +334,8 @@
             $result = SQLGetProviderInfo($connection, $userName);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "username" => $result['username'], "passwrd" => $result['passwrd'], "name" => $result['name'], "description" => $result['description'], "type" => 'provider', "phone" => $result['phone'], "address" => $result['address'], "email" => $result['email']);
+                $row = $result->fetch_assoc();
+                $response = array("status" => "SUCCESS", "username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => 'provider', "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']);
                 
                 $connection->close();
                 return $response;
@@ -451,7 +453,8 @@
             $result = SQLGetProductInfoFromName($connection, $productName);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "name" => $result['name'], "category" => $result['category'], "measure" => $result['measure'], "price" => $result['price']);
+                $row = $result->fetch_assoc();
+                $response = array("status" => "SUCCESS", "name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price']);
                 
                 $connection->close();
                 return $response;
