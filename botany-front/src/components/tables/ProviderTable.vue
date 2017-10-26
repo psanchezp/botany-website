@@ -70,7 +70,7 @@ export default {
   name: 'provider-table',
   data () {
     return {
-      variable: 'productName',
+      variable: 'username',
       action: 'DELETE_PROVIDER'
     }
   },

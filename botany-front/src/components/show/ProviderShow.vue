@@ -34,8 +34,8 @@
         </md-table-cell>
         <md-table-cell>
           <edit-button
-            model="products"
-            :name="providerItem.name"
+            model="providers"
+            :name="providerItem.username"
           >
           </edit-button>
         </md-table-cell>
@@ -60,8 +60,8 @@ export default {
   name: 'provider-show',
   data () {
     return {
-      variable: 'productName',
-      action: 'DELETE_PRODUCT'
+      variable: 'username',
+      action: 'DELETE_PROVIDER'
     }
   },
   components: {
