@@ -1,6 +1,6 @@
 <template>
   <div class="edit-button">
-    <md-button class="md-icon-button" href="/edit/client/x">
+    <md-button class="md-icon-button" :href="model">
       <md-icon>
         mode_edit
       </md-icon>
@@ -11,7 +11,10 @@
 <script>
 export default {
   name: 'edit-button',
-  props: ['link'],
+  props: {
+    model: String,
+    name: String
+  },
   data () {
     return {
     }

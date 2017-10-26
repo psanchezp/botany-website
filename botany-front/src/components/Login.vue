@@ -43,8 +43,8 @@ export default {
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
-          window.location.replace('/hello')
-        })
+          this.$router.push('/hello')
+        }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
