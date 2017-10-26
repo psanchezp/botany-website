@@ -181,6 +181,12 @@
 		return $result;
 	}
 
+	function SQLGetProductName($conn, $productID) {
+		$query = "SELECT name FROM Product WHERE ID = '$productID';";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLUpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
 		$productID = SQLGetProductIDFromName($conn, $oldProductName);
 		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID'";
@@ -279,10 +285,34 @@
 		return $result;
 	}
 
+	function SQLGetAllNonFinalizedPurchases($conn) {
+		$query = "SELECT * FROM Purchases WHERE state = 0;";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLGetAllNonFinalizedSales($conn) {
+		$query = "SELECT * FROM Sales WHERE state = 0;";
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLGetAllFinalizedTransactions($conn) {
 		$query = "SELECT * FROM Purchases WHERE state = 1
 				  UNION
 				  SELECT * FROM Sales WHERE state = 1";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLGetAllFinalizedPurchases($conn) {
+		$query = "SELECT * FROM Purchases WHERE state = 1;";
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLGetAllFinalizedSales($conn) {
+		$query = "SELECT * FROM Sales WHERE state = 1;";
 		$result = $conn->query($query);
 		return $result;
 	}
