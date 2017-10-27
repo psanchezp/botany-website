@@ -7,31 +7,34 @@
 	$action = $_POST["action"];
 
 	switch($action) {
-        case "LOGIN"                : loginUser();        break;
-        case "LOGOUT"               : logoutUser();       break;
+        case "LOGIN"                 : loginUser();        break;
+        case "LOGOUT"                : logoutUser();       break;
 
-        case "REGISTER_CLIENT"      : registerClient();   break;
-        case "UPDATE_CLIENT"        : updateClient();     break;
-        case "READ_CLIENT"          : readClient();       break;
-        case "DELETE_CLIENT"        : deleteClient();     break;
-        case "GET_CLIENTS"          : getAllClients();    break;
+        case "GET_CURRENT_USER"      : getCurrentUser();     break;
+        case "GET_CURRENT_USER_TYPE" : getCurrentUserType(); break;
 
-        case "REGISTER_PROVIDER"    : registerProvider(); break;
-        case "UPDATE_PROVIDER"      : updateProvider();   break;
-        case "READ_PROVIDER"        : readProvider();     break;
-        case "DELETE_PROVIDER"      : deleteProvider();   break;
-        case "GET_PROVIDERS"        : getAllProviders();  break;
+        case "REGISTER_CLIENT"       : registerClient();   break;
+        case "UPDATE_CLIENT"         : updateClient();     break;
+        case "READ_CLIENT"           : readClient();       break;
+        case "DELETE_CLIENT"         : deleteClient();     break;
+        case "GET_CLIENTS"           : getAllClients();    break;
 
-        case "REGISTER_PRODUCT"     : registerProduct();  break;
-        case "UPDATE_PRODUCT"       : updateProduct();    break;
-        case "READ_PRODUCT"         : readProduct();      break;
-        case "DELETE_PRODUCT"       : deleteProduct();    break;
-        case "GET_PRODUCTS"         : getAllProducts();   break;
+        case "REGISTER_PROVIDER"     : registerProvider(); break;
+        case "UPDATE_PROVIDER"       : updateProvider();   break;
+        case "READ_PROVIDER"         : readProvider();     break;
+        case "DELETE_PROVIDER"       : deleteProvider();   break;
+        case "GET_PROVIDERS"         : getAllProviders();  break;
 
-        case "CREATE_TRANSACTION"   : createTransaction();   break;
-        case "UPDATE_TRANSACTION"   : updateTransaction();   break;
-        case "DELETE_TRANSACTION"   : deleteTransaction();   break;
-        case "FINALIZE_TRANSACTION" : finalizeTransaction(); break;
+        case "REGISTER_PRODUCT"      : registerProduct();  break;
+        case "UPDATE_PRODUCT"        : updateProduct();    break;
+        case "READ_PRODUCT"          : readProduct();      break;
+        case "DELETE_PRODUCT"        : deleteProduct();    break;
+        case "GET_PRODUCTS"          : getAllProducts();   break;
+
+        case "CREATE_TRANSACTION"    : createTransaction();   break;
+        case "UPDATE_TRANSACTION"    : updateTransaction();   break;
+        case "DELETE_TRANSACTION"    : deleteTransaction();   break;
+        case "FINALIZE_TRANSACTION"  : finalizeTransaction(); break;
 
         case "GET_TRANSACTIONS"                 : getAllTransactions();             break;
         case "GET_FINALIZED_TRANSACTIONS"       : getFinalizedTransactions();       break;
@@ -547,6 +550,22 @@
         $_SESSION["type"]     = $userType;
     }
 
+    function getCurrentUser() {
+        if (isset($_SESSION["username"])) {
+            return $_SESSION["username"];
+        } else {
+            errorHandling("441");
+        }
+    }
+
+    function getCurrentUserType() {
+        if (isset($_SESSION["type"])) {
+            return $_SESSION["type"];
+        } else {
+            errorHandling("441");
+        }
+    }
+
     function encryptPassword() {
         $userPassword = $_POST["userPassword"];
 
@@ -693,8 +712,11 @@
             case "439" : header("HTTP/1.1 439 No se ha podido eliminar la venta.");
                         die("No se ha podido eliminar la venta.");
                         break;
-            case "440" : header("HTTP/1.1 439 No se ha podido finalizar la transacción.");
+            case "440" : header("HTTP/1.1 440 No se ha podido finalizar la transacción.");
                         die("No se ha podido finalizar la transacción.");
+                        break;
+            case "441" : header("HTTP/1.1 441 No hay ninguna sesión iniciada.");
+                        die("No hay ninguna sesión iniciada.");
                         break;
 			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
