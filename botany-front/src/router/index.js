@@ -58,7 +58,7 @@ export default new VueRouter({
       props: true
     },
     {
-      path: '/:model/show/:name',
+      path: '/:model/:name',
       title: 'Generic show path',
       component: ModelShow,
       props: true

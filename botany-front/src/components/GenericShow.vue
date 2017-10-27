@@ -45,8 +45,7 @@ export default {
       params.append(this.getName(model), this.name)
       axios.post(this.url, params)
         .then(function (response) {
-          console.log(response)
-          // this.item = this.retrieveItem(response)
+          this.item = response.data
           this.dataLoaded = true
         }.bind(this))
         .catch(function (error) {
@@ -71,16 +70,6 @@ export default {
           return 'productName'
         case 'providers':
           return 'username'
-      }
-    },
-    retrieveItem (response) {
-      switch (this.model) {
-        case 'clients':
-          return response.data.clients
-        case 'products':
-          return response.data.products
-        case 'providers':
-          return response.data.providers
       }
     }
   }

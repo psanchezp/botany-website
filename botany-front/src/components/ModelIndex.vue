@@ -16,8 +16,7 @@
     data () {
       return {
         url: 'http://127.0.0.1/botany-back/applicationLayer.php',
-        model: this.$route.params.model,
-        name: this.$route.params.name
+        model: this.$route.params.model
       }
     },
     components: {
