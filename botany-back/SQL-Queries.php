@@ -47,7 +47,7 @@
 	}
 
 	function SQLUpdateFullClient($conn, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
-		$query = "UPDATE Client SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'client', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username'";
+		$query = "UPDATE Client SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'client', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username';";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -92,7 +92,7 @@
 	}
 
 	function SQLUpdateFullProvider($conn, $username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
-		$query = "UPDATE Provider SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'provider', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username'";
+		$query = "UPDATE Provider SET passwrd = '$userPassword', name = '$name', description = '$userDescription', type = 'provider', phone = '$userPhone', address = '$userAddress', email = '$userEmail' WHERE username = '$username';";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -189,7 +189,7 @@
 
 	function SQLUpdateFullProduct($conn, $oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
 		$productID = SQLGetProductIDFromName($conn, $oldProductName);
-		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID'";
+		$query = "UPDATE Product SET name = '$newProductName', category = '$productCategory', measure = '$productMeasure', price = '$productPrice' WHERE ID = '$productID';";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -280,7 +280,7 @@
 	function SQLGetAllNonFinalizedTransactions($conn) {
 		$query = "SELECT * FROM Purchases WHERE state = 0
 				  UNION
-				  SELECT * FROM Sales WHERE state = 0";
+				  SELECT * FROM Sales WHERE state = 0;";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -300,7 +300,7 @@
 	function SQLGetAllFinalizedTransactions($conn) {
 		$query = "SELECT * FROM Purchases WHERE state = 1
 				  UNION
-				  SELECT * FROM Sales WHERE state = 1";
+				  SELECT * FROM Sales WHERE state = 1;";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -359,13 +359,13 @@
 	}
 
 	function SQLGetPurchasesBetweenDates($conn, $firstDate, $secondDate) {
-		$query = "SELECT * FROM Purchases WHERE transaction_date >= '$firstDate' and transaction_date <= '$secondDate'";
+		$query = "SELECT * FROM Purchases WHERE transaction_date >= '$firstDate' and transaction_date <= '$secondDate';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function SQLGetSalesBetweenDates($conn, $firstDate, $secondDate) {
-		$query = "SELECT * FROM Sales WHERE transaction_date >= '$firstDate' and transaction_date <= '$secondDate'";
+		$query = "SELECT * FROM Sales WHERE transaction_date >= '$firstDate' and transaction_date <= '$secondDate';";
 		$result = $conn->query($query);
 		return $result;
 	}
@@ -399,13 +399,13 @@
 	}
 
 	function SQLUpdateFullPurchase($conn, $purchaseID, $providerUsername, $productID, $transactionDate, $state, $quantity, $description) {
-		$query = "UPDATE Purchases SET prov_username = '$providerUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$purchaseID'";
+		$query = "UPDATE Purchases SET prov_username = '$providerUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$purchaseID';";
 		$result = $conn->query($query);
 		return $result;
 	}
 
 	function SQLUpdateFullSale($conn, $saleID, $clientUsername, $productID, $transactionDate, $state, $quantity, $description) {
-		$query = "UPDATE Sales SET client_username = '$clientUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$saleID'";
+		$query = "UPDATE Sales SET client_username = '$clientUsername', prod_id = '$productID', transaction_date = '$transactionDate', state = '$state', quantity = '$quantity', description = '$description' WHERE ID = '$saleID';";
 		$result = $conn->query($query);
 		return $result;
 	}
