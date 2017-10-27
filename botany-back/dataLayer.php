@@ -3,7 +3,7 @@
     require_once __DIR__ . '/SQL-Queries.php';
 
 	function connectionToDataBase() {
-		$servername = "localhost";
+		$servername = "127.0.0.1";
 		$username   = "root";
 		$passwrd    = "root";
 		$dbname     = "botanychips";
