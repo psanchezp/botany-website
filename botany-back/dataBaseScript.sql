@@ -39,7 +39,7 @@ CREATE TABLE Purchases (
 	ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     prov_username VARCHAR(50) NOT NULL,
     prod_id INT NOT NULL,
-    transaction_date DATETIME NOT NULL,
+    transaction_date DATE NOT NULL,
     state BOOLEAN NOT NULL, -- finalized or not
     quantity INT NOT NULL,
     description VARCHAR(200),
@@ -53,7 +53,7 @@ CREATE TABLE Sales (
 	ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     client_username VARCHAR(50) NOT NULL,
     prod_id INT NOT NULL,
-    transaction_date DATETIME NOT NULL,
+    transaction_date DATE NOT NULL,
     state BOOLEAN NOT NULL, -- finalized or not
     quantity INT NOT NULL,
     description VARCHAR(200),
