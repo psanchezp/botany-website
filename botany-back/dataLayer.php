@@ -448,7 +448,7 @@
 
             if ($result) {
                 $row = $result->fetch_assoc();
-                $response = array("status" => "SUCCESS", "name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price']);
+                $response = array("status" => "SUCCESS", "name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price'], "ID" => $row['ID']);
                 
                 $connection->close();
                 return $response;
@@ -492,7 +492,7 @@
             $response = array();
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    array_push($response, array("name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price']));
+                    array_push($response, array("name" => $row['name'], "category" => $row['category'], "measure" => $row['measure'], "price" => $row['price'], "ID" => $row['ID']));
                 }    
             }
             
@@ -676,7 +676,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
                        
@@ -687,7 +687,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
 
@@ -711,7 +711,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
              
@@ -722,7 +722,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
 
@@ -746,7 +746,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
              
@@ -757,7 +757,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
 
@@ -781,7 +781,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
 
@@ -805,7 +805,7 @@
                     
                     $name = SQLGetProductName($connection, $row['prod_id']);
                     $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description']));
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
                 }
             }
 
