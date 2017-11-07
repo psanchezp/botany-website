@@ -21,12 +21,14 @@
     name: 'generic-form',
     data () {
       return {
-        url: 'http://127.0.0.1/botany-back/applicationLayer.php',
-        model: this.$route.params.model
+        url: 'http://127.0.0.1/botany-back/applicationLayer.php'
       }
     },
     components: {
       ProductForm, ProviderForm, ClientForm
+    },
+    props: {
+      model: String
     },
     computed: {
       translatedModel: function () {

@@ -13,7 +13,7 @@
     <input
       type="text"
       v-model="name"
-      placeholder="Nombre de proveedor"
+      placeholder="Nombre de cliente"
     />
     <input
       type="text"

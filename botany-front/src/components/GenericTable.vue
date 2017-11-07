@@ -1,7 +1,7 @@
 <template>
   <div class="generic-table">
     <md-layout md-gutter>
-      <md-layout v-if="dataLoaded" md-flex="80" md-flex-offset="10">
+      <md-layout v-if="dataLoaded" md-flex="90" md-flex-offset="5">
         <client-table :client-items="itemList" v-if="model === 'clients'"></client-table>
         <provider-table :provider-items="itemList" v-if="model === 'providers'"></provider-table>
         <product-table :product-items="itemList" v-if="model === 'products'"></product-table>
@@ -36,7 +36,9 @@ export default {
   components: {
     ClientTable, ProviderTable, ProductTable
   },
-  props: ['model'],
+  props: {
+    model: String
+  },
   created: function () {
     this.getList(this.model)
   },

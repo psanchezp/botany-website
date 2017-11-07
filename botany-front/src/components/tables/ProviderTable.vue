@@ -44,7 +44,7 @@
         <md-table-cell>
           <delete-button
             :variable="variable"
-            :name="item.name"
+            :name="item.username"
             :action="action"
           >  
           </delete-button>

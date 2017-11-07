@@ -10,7 +10,10 @@
       v-model="productCategory"
       placeholder="Categoria"
     />
-    <input type="text" v-model="productMeasure">
+    <input 
+      type="text"
+      v-model="productMeasure"
+    />
     <input type="number"  step="0.01" min="0" v-model="productPrice">
     <input type="submit" value="Create">
   </form>
