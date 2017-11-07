@@ -13,8 +13,17 @@
 
     <md-table-body>
       <md-table-row>
-        <md-table-cell v-if="value != 'SUCCESS'" v-for="(value, key) in productItem" :key="key">
-          {{ value }}
+        <md-table-cell>
+          {{ productItem.name }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ productItem.category }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ productItem.measure }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ productItem.price }}
         </md-table-cell>
         <md-table-cell>
           <edit-button
