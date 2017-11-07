@@ -36,7 +36,7 @@
         <md-table-cell>
           <edit-button
             model="clients"
-            :name="item.name"
+            :name="item.username"
           >
           </edit-button>
         </md-table-cell>
