@@ -1,14 +1,15 @@
 <template>
-  <form v-on:submit='providerCreate' class="provider-form">
+  <form v-on:submit='providerForm' class="provider-form">
     <input
       type="text"
       v-model="username"
-      placeholder="Usuario" 
+      placeholder="Usuario"
+      :disabled="disabledInput"
     />
     <input
       type="password"
       v-model="userPassword"
-      placeholder="Contraseña"
+      :placeholder="passwordPlaceholder"
     />
     <input
       type="text"
@@ -36,7 +37,7 @@
       v-model="userEmail"
       placeholder="Correo"
     />
-    <input class="md-button" type="submit" value="Create">
+    <input class="md-button" type="submit" :value="submitButton">
   </form>
 </template>
 
@@ -54,12 +55,48 @@
         userDescription: '',
         userPhone: '',
         userAddress: '',
-        userEmail: '',
-        action: 'REGISTER_PROVIDER'
+        userEmail: ''
+      }
+    },
+    props: {
+      item: Object,
+      action: String
+    },
+    created: function () {
+      if (this.item) {
+        this.username = this.item.username
+        this.name = this.item.name
+        this.userDescription = this.item.description
+        this.userPhone = this.item.phone
+        this.userAddress = this.item.address
+        this.userEmail = this.item.email
+      }
+    },
+    computed: {
+      submitButton () {
+        if (this.action === 'UPDATE_PROVIDER') {
+          return 'Edit'
+        } else {
+          return 'Create'
+        }
+      },
+      disabledInput () {
+        if (this.action === 'UPDATE_PROVIDER') {
+          return true
+        } else {
+          return false
+        }
+      },
+      passwordPlaceholder () {
+        if (this.action === 'UPDATE_PROVIDER') {
+          return 'Nueva contraseña'
+        } else {
+          return 'Contraseña'
+        }
       }
     },
     methods: {
-      providerCreate (event) {
+      providerForm (event) {
         event.preventDefault()
         var params = new URLSearchParams()
         params.append('username', this.username)

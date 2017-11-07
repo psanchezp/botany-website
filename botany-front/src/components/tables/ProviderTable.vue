@@ -37,7 +37,7 @@
         <md-table-cell>
           <edit-button
             model="providers"
-            :name="item.name"
+            :name="item.username"
           >
           </edit-button>
         </md-table-cell>
