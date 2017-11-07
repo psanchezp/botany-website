@@ -6,18 +6,7 @@ import ModelIndex from '@/components/ModelIndex'
 import ModelShow from '@/components/ModelShow'
 import ModelNew from '@/components/ModelNew'
 import ModelEdit from '@/components/ModelEdit'
-// import ClientIndex from '@/components/ClientIndex'
-// import ProviderIndex from '@/components/ProviderIndex'
-// import ProductIndex from '@/components/ProductIndex'
-// import ClientShow from '@/components/ClientShow'
-// import ProviderShow from '@/components/ProviderShow'
-// import ProductShow from '@/components/ProductShow'
-// import ClientNew from '@/components/ClientNew'
-// import ClientEdit from '@/components/ClientEdit'
-// import ProviderNew from '@/components/ProviderNew'
-// import ProviderEdit from '@/components/ProviderEdit'
-// import ProductNew from '@/components/ProductNew'
-// import ProductEdit from '@/components/ProductEdit'
+import TransactionIndex from '@/components/TransactionIndex'
 
 Vue.use(VueRouter)
 
@@ -34,11 +23,12 @@ export default new VueRouter({
       title: 'Hello path',
       component: Hello
     },
-    // {
-    //   path: '/clients',
-    //   title: 'Client index path',
-    //   component: ClientIndex
-    // },
+    {
+      path: '/transactions/:model/:name?',
+      title: 'Transactions',
+      component: TransactionIndex,
+      props: true
+    },
     {
       path: '/:model',
       title: 'Generic model path',
@@ -69,55 +59,5 @@ export default new VueRouter({
       component: ModelEdit,
       props: true
     }
-    // {
-    //   path: '/products',
-    //   title: 'Product index path',
-    //   component: ProductIndex
-    // },
-    // {
-    //   path: '/client/x',
-    //   title: 'Client show path',
-    //   component: ClientShow
-    // },
-    // {
-    //   path: '/provider/x',
-    //   title: 'Provider show path',
-    //   component: ProviderShow
-    // },
-    // {
-    //   path: '/product/x',
-    //   title: 'Product show path',
-    //   component: ProductShow
-    // },
-    // {
-    //   path: '/edit/client/x',
-    //   title: 'Client edit path',
-    //   component: ClientEdit
-    // },
-    // {
-    //   path: '/edit/provider/x',
-    //   title: 'Provider edit path',
-    //   component: ProviderEdit
-    // },
-    // {
-    //   path: '/edit/product/x',
-    //   title: 'Product edit path',
-    //   component: ProductEdit
-    // },
-    // {
-    //   path: '/new/client',
-    //   title: 'New Client path',
-    //   component: ClientNew
-    // },
-    // {
-    //   path: '/new/provider',
-    //   title: 'New Provider path',
-    //   component: ProviderNew
-    // },
-    // {
-    //   path: '/new/product',
-    //   title: 'New Product path',
-    //   component: ProductNew
-    // }
   ]
 })
