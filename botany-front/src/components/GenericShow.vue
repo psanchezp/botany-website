@@ -10,8 +10,6 @@
   </div>
 </template>
 
-<!-- <edit-button :model="model"></edit-button> -->
-
 <script>
 import ClientShow from '@/components/show/ClientShow'
 import ProductShow from '@/components/show/ProductShow'

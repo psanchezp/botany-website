@@ -3,9 +3,18 @@
     <md-layout md-gutter>
       <md-layout md-flex="40" md-flex-offset="30">
         <h4>Nuevo {{ translatedModel }}</h4>
-        <client-form v-if="model === 'clients'"></client-form>
-        <provider-form v-if="model === 'providers'"></provider-form>
-        <product-form v-if="model === 'products'"></product-form>
+        <client-form
+          action="REGISTER_CLIENT"
+          v-if="model === 'clients'"
+        ></client-form>
+        <provider-form
+          action="REGISTER_PROVIDER"
+          v-if="model === 'providers'"
+        ></provider-form>
+        <product-form
+          action="REGISTER_PRODUCT"
+          v-if="model === 'products'"
+        ></product-form>
       </md-layout>
     </md-layout>
   </div>
@@ -15,7 +24,6 @@
   import ProductForm from '@/components/forms/ProductForm'
   import ProviderForm from '@/components/forms/ProviderForm'
   import ClientForm from '@/components/forms/ClientForm'
-  // import axios from 'axios'
 
   export default {
     name: 'generic-form',
