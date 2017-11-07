@@ -14,8 +14,17 @@
 
     <md-table-body>
       <md-table-row v-for="item of productItems" :key="item.name">
-        <md-table-cell v-for="(value, key) in item" :key="key">
-          {{ value }}
+        <md-table-cell>
+          {{ item.name }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.category }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.measure }}
+        </md-table-cell>
+        <md-table-cell>
+          {{ item.price }}
         </md-table-cell>
         <md-table-cell>
           <edit-button
