@@ -526,4 +526,90 @@
 		}
 	}
 
+	function SQLReport($conn, $transactionDateStart, $transactionDateFinish, $transactionType, $username, $productName, $state) {
+	    if ($transactionType == "sale"){
+	        // Cuando se selecciona que sean ventas o se selecciona a un username de un cliente (que incluye que $transactionType sea venta)
+	        SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
+	    } else if ($transactionType == "purchase"){
+	        // Cuando se selecciona que sean compras o se selecciona a un username de un proveedor (que incluye que $transactionType sea compra)
+	        SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
+	    } else {
+	        // Si no se especifica ninguno (ni $transactionType ni $username)
+	        SQLReportGeneral($conn, $transactionDateStart, $transactionDateFinish, $productName, $state);
+	    }
+	}
+
+	function SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state) {
+		$query = "SELECT * FROM Sales WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
+	    
+	    if ($username != "null") {
+	        $queryDummy = " AND client_username = '$username'";
+	        $query .= $queryDummy;
+	    }
+
+	    if ($productName != "null") {
+	        $ID = SQLGetProductIDFromName($conn, $productName);
+	        $queryDummy = " AND prod_id = '$ID'";
+	        $query .= $queryDummy;
+	    }
+
+	    if ($state != "null") {
+	        $queryDummy = "AND state = '$state'";
+	        $query .= $queryDummy;
+	    }
+
+	    $query .= ";";
+
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state) {
+		$query = "SELECT * FROM Purchases WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
+	    
+	    if ($username != "null") {
+	        $queryDummy = " AND prov_username = '$username'";
+	        $query .= $queryDummy;
+	    }
+	    
+	    if ($productName != "null") {
+	        $ID = SQLGetProductIDFromName($conn, $productName);
+	        $queryDummy = " AND prod_id = '$ID'";
+	        $query .= $queryDummy;
+	    }
+
+	    if ($state != "null") {
+	        $queryDummy = " AND state = '$state'";
+	        $query .= $queryDummy;
+	    }
+
+	    $query .= ";";
+
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLReportGeneral($conn, $transactionDateStart, $transactionDateFinish, $productName, $state) {
+		$query = "SELECT * FROM 
+	                (SELECT ID, prov_username AS username, prod_id, transaction_date, state, quantity, description FROM Purchases
+	                UNION 
+	                SELECT ID, client_username AS username, prod_id, transaction_date, state, quantity, description FROM Sales) AS T
+	                WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
+
+	    if ($productName != "null") {
+	        $ID = SQLGetProductIDFromName($conn, $productName);
+	        $queryDummy = " AND prod_id = '$ID'";
+	        $query .= $queryDummy;
+	    }
+
+	    if ($state != "null") {
+	        $queryDummy = " AND state = '$state'";
+	        $query .= $queryDummy;
+	    }
+
+	    $query .= ";";
+
+		$result = $conn->query($query);
+		return $result;
+	}
 ?>
