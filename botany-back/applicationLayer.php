@@ -41,12 +41,23 @@
         case "GET_NONFINALIZED_TRANSACTIONS"    : getNonFinalizedTransactions();    break;
         case "GET_TRANSACTIONS_BY_CLIENT"       : getClientTransactions();          break;
         case "GET_TRANSACTIONS_BY_PROVIDER"     : getProviderTransactions();        break;
+
+        case "GET_SESSION"           : getSession(); break;
     }
+
+    function getSession() {
+    session_start();
+    if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
+        echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
+    } else {
+        header('HTTP/1.1 406 Session not started');
+        die("You haven't logged in! You will be redirected to the login page");
+    }
+}
 
     function loginUser() {
         $username     = $_POST["username"];
         $userPassword = $_POST["userPassword"];
-        $remember     = $_POST["rememberMe"];
         
         if ($username != "" && $userPassword != "") {
             $result = attemptLogin($username);
@@ -56,11 +67,8 @@
                 
                 if ($decryptedPassword === $userPassword) {
                     startSession($username, $result["type"]);
-
-                    if ($remember == "true") {
-                        startCookie($username, $userPassword);
-                    }
-
+                    startCookie($username, $userPassword);
+                    
                     echo json_encode($result);
                 } else {
                     // Usuario correcto, contraseña incorrecta
