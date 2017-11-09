@@ -43,17 +43,19 @@
         case "GET_TRANSACTIONS_BY_PROVIDER"     : getProviderTransactions();        break;
 
         case "GET_SESSION"           : getSession(); break;
+
+        case "GENERATE_REPORT"       : generateReport(); break;
     }
 
     function getSession() {
-    session_start();
-    if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
-        echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
-    } else {
-        header('HTTP/1.1 406 Session not started');
-        die("You haven't logged in! You will be redirected to the login page");
+        session_start();
+        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
+            echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
+        } else {
+            header('HTTP/1.1 406 Session not started');
+            die("You haven't logged in! You will be redirected to the login page");
+        }
     }
-}
 
     function loginUser() {
         $username     = $_POST["username"];
@@ -539,6 +541,23 @@
     function getClientTransactions() {
         $username = $_POST["username"];
         $result = attemptGetClientTransactions($username);
+
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
+        } else {
+            errorHandling($result["status"]);
+        }
+    }
+
+    function generateReport() {
+        $transactionDateStart = $_POST["transactionDateStart"];
+        $transactionDateFinish = $_POST["transactionDateFinish"];
+        $transactionType = $_POST["transactionType"];
+        $transactionUsername = $_POST["transactionUsername"];
+        $transactionProductName = $_POST["transactionProductName"];
+        $transactionState = $_POST["transactionState"];
+
+        $result = attemptGenerateReport($transactionDateStart, $transactionDateFinish, $transactionType, $transactionUsername, $transactionProductName, $transactionState);
 
         if ($result["status"] == "SUCCESS") {
             echo json_encode($result);
