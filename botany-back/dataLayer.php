@@ -627,6 +627,8 @@
     }
 
     function attemptFinalizeTransaction($transactionID) {
+        $connection = connectionToDataBase();
+
         if ($connection != null) {
             $result = SQLGetPurchase($connection, $transactionID);
             if ($result) {
