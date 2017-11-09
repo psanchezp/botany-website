@@ -815,4 +815,26 @@
             return array("status" => "500");
         }
     }
+
+    function attemptGenerateReport($transactionDateStart, $transactionDateFinish, $transactionType, $transactionUsername, $transactionProductName, $transactionState) {
+        $connection = connectionToDataBase();
+
+        if ($connection != null) {
+            $result = SQLReport($connection, $username);
+
+            $response = array();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $name = SQLGetProductName($connection, $row['prod_id']);
+                    $namerow = $name->fetch_assoc();
+                    array_push($response, array("username" => $row['username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID']));
+                }
+            }
+
+            $connection->close();
+            return array("status" => "SUCCESS", "transactions" => $response);
+        } else {
+            return array("status" => "500");
+        }
+    }
 ?>
