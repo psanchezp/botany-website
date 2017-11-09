@@ -527,31 +527,32 @@
 	}
 
 	function SQLReport($conn, $transactionDateStart, $transactionDateFinish, $transactionType, $username, $productName, $state) {
-	    if ($transactionType == "sale"){
+	    if (strtolower($transactionType) == "sale") {
 	        // Cuando se selecciona que sean ventas o se selecciona a un username de un cliente (que incluye que $transactionType sea venta)
-	        SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
-	    } else if ($transactionType == "purchase"){
+	        return SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
+	    } else if (strtolower($transactionType) == "purchase") {
 	        // Cuando se selecciona que sean compras o se selecciona a un username de un proveedor (que incluye que $transactionType sea compra)
-	        SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
+	        return SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
 	    } else {
 	        // Si no se especifica ninguno (ni $transactionType ni $username)
-	        SQLReportGeneral($conn, $transactionDateStart, $transactionDateFinish, $productName, $state);
+	        return SQLReportGeneral($conn, $transactionDateStart, $transactionDateFinish, $productName, $state);
 	    }
 	}
 
 	function SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state) {
-		$query = "SELECT * FROM Sales WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
+		$query = "SELECT ID, client_username AS username, prod_id, transaction_date, state, quantity, description FROM Sales
+				  WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
 	    
-	    if ($username != "null") {
+	    if (strtolower($username) != "null") {
 	        $query .= " AND client_username = '$username'";
 	    }
 
-	    if ($productName != "null") {
+	    if (strtolower($productName) != "null") {
 	        $ID = SQLGetProductIDFromName($conn, $productName);
 	        $query .= " AND prod_id = '$ID'";
 	    }
 
-	    if ($state != "null") {
+	    if (strtolower($state) != "null") {
 	        $query .= "AND state = '$state'";
 	    }
 
@@ -562,18 +563,19 @@
 	}
 
 	function SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state) {
-		$query = "SELECT * FROM Purchases WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
+		$query = "SELECT ID, prov_username AS username, prod_id, transaction_date, state, quantity, description FROM Purchases
+				  WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
 	    
-	    if ($username != "null") {
+	    if (strtolower($username) != "null") {
 	        $query .= " AND prov_username = '$username'";
 	    }
 	    
-	    if ($productName != "null") {
+	    if (strtolower($productName) != "null") {
 	        $ID = SQLGetProductIDFromName($conn, $productName);
 	        $query .= " AND prod_id = '$ID'";
 	    }
 
-	    if ($state != "null") {
+	    if (strtolower($state) != "null") {
 	        $query .= " AND state = '$state'";
 	    }
 
