@@ -543,19 +543,16 @@
 		$query = "SELECT * FROM Sales WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
 	    
 	    if ($username != "null") {
-	        $queryDummy = " AND client_username = '$username'";
-	        $query .= $queryDummy;
+	        $query .= " AND client_username = '$username'";
 	    }
 
 	    if ($productName != "null") {
 	        $ID = SQLGetProductIDFromName($conn, $productName);
-	        $queryDummy = " AND prod_id = '$ID'";
-	        $query .= $queryDummy;
+	        $query .= " AND prod_id = '$ID'";
 	    }
 
 	    if ($state != "null") {
-	        $queryDummy = "AND state = '$state'";
-	        $query .= $queryDummy;
+	        $query .= "AND state = '$state'";
 	    }
 
 	    $query .= ";";
@@ -568,19 +565,16 @@
 		$query = "SELECT * FROM Purchases WHERE transaction_date >= '$transactionDateStart' AND transaction_date <= '$transactionDateFinish'";
 	    
 	    if ($username != "null") {
-	        $queryDummy = " AND prov_username = '$username'";
-	        $query .= $queryDummy;
+	        $query .= " AND prov_username = '$username'";
 	    }
 	    
 	    if ($productName != "null") {
 	        $ID = SQLGetProductIDFromName($conn, $productName);
-	        $queryDummy = " AND prod_id = '$ID'";
-	        $query .= $queryDummy;
+	        $query .= " AND prod_id = '$ID'";
 	    }
 
 	    if ($state != "null") {
-	        $queryDummy = " AND state = '$state'";
-	        $query .= $queryDummy;
+	        $query .= " AND state = '$state'";
 	    }
 
 	    $query .= ";";
@@ -598,13 +592,11 @@
 
 	    if ($productName != "null") {
 	        $ID = SQLGetProductIDFromName($conn, $productName);
-	        $queryDummy = " AND prod_id = '$ID'";
-	        $query .= $queryDummy;
+	        $query .= " AND prod_id = '$ID'";
 	    }
 
 	    if ($state != "null") {
-	        $queryDummy = " AND state = '$state'";
-	        $query .= $queryDummy;
+	        $query .= " AND state = '$state'";
 	    }
 
 	    $query .= ";";
