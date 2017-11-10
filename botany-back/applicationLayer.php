@@ -113,9 +113,6 @@
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
 			
             if ($result["status"] == "SUCCESS") {
-                // al registrarse se hace login e inicia la sesion
-                startSession($username, "client");
-
 				echo json_encode($result);
 			} else {
                 errorHandling($result["status"]);
@@ -206,8 +203,6 @@
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
 			
             if ($result["status"] == "SUCCESS") { 
-                // al registrarse se hace login e inicia la sesion
-                startSession($username, "provider");
 				echo json_encode($result);
 			} else {
                 errorHandling($result["status"]);
