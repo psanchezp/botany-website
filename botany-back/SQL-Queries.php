@@ -412,7 +412,7 @@
 
 	function SQLUpdatePurchase($conn, $purchaseID, $column, $value) {
 		// First verify that the transaction is not finalized
-		if (PurchaseIsFinalized($conn, $purchaseID)) {
+		if (SQLPurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
 		} else if (strtolower($column) == "prov_username") {
 			die("Error - No puedes modificar el proveedor de la compra.");
