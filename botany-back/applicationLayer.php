@@ -48,11 +48,11 @@
     }
 
     function getSession() {
-        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
-            echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
+        if (isset($_SESSION["username"]) || isset($_SESSION["type"])) {
+            echo json_encode(array("status" => "SUCCESS", "username" => $_SESSION["username"], "type" => $_SESSION["type"]));
         } else {
             header('HTTP/1.1 406 Session not started');
-            die("You haven't logged in! You will be redirected to the login page");
+            die("You haven't logged in! You will be redirected to the login page.");
         }
     }
 
