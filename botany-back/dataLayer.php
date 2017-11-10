@@ -676,9 +676,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
                 }
             }
                        
@@ -687,9 +687,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['client_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
                 }
             }
 
@@ -711,9 +711,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
                 }
             }
              
@@ -722,9 +722,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['client_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
                 }
             }
 
@@ -746,9 +746,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
                 }
             }
              
@@ -757,9 +757,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['client_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
                 }
             }
 
@@ -781,9 +781,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['client_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['client_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "sale"));
                 }
             }
 
@@ -805,9 +805,9 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     
-                    $name = SQLGetProductName($connection, $row['prod_id']);
-                    $namerow = $name->fetch_assoc();
-                    array_push($response, array("username" => $row['prov_username'], "productName" => $namerow['name'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
+                    $productInfo = SQLGetProductInfo($connection, $row['prod_id']);
+                    $productInfoResult = $productInfo->fetch_assoc();
+                    array_push($response, array("username" => $row['prov_username'], "productName" => $productInfoResult['name'], "productMeasure" => $productInfoResult['measure'], "transactionDate" => $row['transaction_date'], "state" => $row['state'], "quantity" => $row['quantity'], "description" => $row['description'], "ID" => $row['ID'], "type" => "purchase"));
                 }
             }
 
