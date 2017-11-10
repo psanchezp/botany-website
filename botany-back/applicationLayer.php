@@ -48,11 +48,11 @@
     }
 
     function getSession() {
-        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
-            echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
+        if (isset($_SESSION["username"]) || isset($_SESSION["type"])) {
+            echo json_encode(array("status" => "SUCCESS", "username" => $_SESSION["username"], "type" => $_SESSION["type"]));
         } else {
             header('HTTP/1.1 406 Session not started');
-            die("You haven't logged in! You will be redirected to the login page");
+            die("You haven't logged in! You will be redirected to the login page.");
         }
     }
 
@@ -113,11 +113,8 @@
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
             
             if ($result["status"] == "SUCCESS") {
-                // al registrarse se hace login e inicia la sesion
-                startSession($username, "client");
-
                 echo json_encode($result);
-            } else {
+			} else {
                 errorHandling($result["status"]);
             }  
         } else {
@@ -206,10 +203,8 @@
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
             
             if ($result["status"] == "SUCCESS") { 
-                // al registrarse se hace login e inicia la sesion
-                startSession($username, "provider");
-                echo json_encode($result);
-            } else {
+				echo json_encode($result);
+			} else {
                 errorHandling($result["status"]);
             }
         } else {
