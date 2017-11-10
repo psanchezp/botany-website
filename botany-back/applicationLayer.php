@@ -4,9 +4,9 @@
     header('Access-Control-Allow-Methods: GET, POST, PUT');
     require_once __DIR__ . '/dataLayer.php';
 
-	$action = $_POST["action"];
+    $action = $_POST["action"];
 
-	switch($action) {
+    switch($action) {
         case "LOGIN"                 : loginUser();        break;
         case "LOGOUT"                : logoutUser();       break;
 
@@ -111,18 +111,18 @@
             $userEmail       = $_POST["userEmail"];
 
             $result = attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") {
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "client");
 
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }  
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function updateClient() {
@@ -196,7 +196,7 @@
         $result = verifyUserDoesNotExist($username);
 
         if ($result["status"] == "SUCCESS") {
-			$userPassword    = encryptPassword();
+            $userPassword    = encryptPassword();
             $name            = $_POST["name"];
             $userDescription = $_POST["userDescription"];
             $userPhone       = $_POST["userPhone"];
@@ -204,17 +204,17 @@
             $userEmail       = $_POST["userEmail"];
         
             $result = attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail);
-			
+            
             if ($result["status"] == "SUCCESS") { 
                 // al registrarse se hace login e inicia la sesion
                 startSession($username, "provider");
-				echo json_encode($result);
-			} else {
+                echo json_encode($result);
+            } else {
                 errorHandling($result["status"]);
             }
-		} else {
-			errorHandling($result["status"]);
-		}
+        } else {
+            errorHandling($result["status"]);
+        }
     }
 
     function updateProvider() {
@@ -577,6 +577,7 @@
     }
 
     function getCurrentUser() {
+        session_start();
         if (isset($_SESSION["username"])) {
             return $_SESSION["username"];
         } else {
@@ -585,6 +586,7 @@
     }
 
     function getCurrentUserType() {
+        session_start();
         if (isset($_SESSION["type"])) {
             return $_SESSION["type"];
         } else {
@@ -631,14 +633,14 @@
         return $userPassword;
     }
 
-	function errorHandling($errorStatus) {
-		switch ($errorStatus) {
+    function errorHandling($errorStatus) {
+        switch ($errorStatus) {
             case "500" : header("HTTP/1.1 500 No se ha conectado a la base de datos.");
                         die("El servidor esta caído, inténtelo nuevamente.");
-						break;
+                        break;
             case "406" : header("HTTP/1.1 406 Usuario y/o contraseña vacíos.");
                         die("Ingrese un usuario y contraseña válidos.");
-						break;
+                        break;
             case "407" : header('HTTP/1.1 407 Los datos ingresados no coinciden con los guardados.');
                         die("Los datos ingresados no coinciden con los guardados.");
                         break;
@@ -744,12 +746,12 @@
             case "441" : header("HTTP/1.1 441 No hay ninguna sesión iniciada.");
                         die("No hay ninguna sesión iniciada.");
                         break;
-			case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
+            case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
-						break;
+                        break;
             default : header('HTTP/1.1 417 Error en la aplicación.');
                       die("Error en la aplicación.");
                       break;
-		}
-	}
+        }
+    }
 ?>

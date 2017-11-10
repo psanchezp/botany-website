@@ -2,24 +2,24 @@
 
     require_once __DIR__ . '/SQL-Queries.php';
 
-	function connectionToDataBase() {
-		$servername = "127.0.0.1";
-		$username   = "root";
-		$passwrd    = "root";
-		$dbname     = "botanychips";
+    function connectionToDataBase() {
+        $servername = "127.0.0.1";
+        $username   = "root";
+        $passwrd    = "root";
+        $dbname     = "botanychips";
         
-		$conn = new mysqli($servername, $username, $passwrd, $dbname);
-		
-		if ($conn->connect_error) {
-			return null;
-		} else {
-			return $conn;
-		}
-	}
+        $conn = new mysqli($servername, $username, $passwrd, $dbname);
+        
+        if ($conn->connect_error) {
+            return null;
+        } else {
+            return $conn;
+        }
+    }
 
     function attemptLogin($username) {
         $connection = connectionToDataBase();
-		if ($connection != null) {
+        if ($connection != null) {
             $result = SQLFindUsername($connection, $username);
 
             if ($result->num_rows > 0) {   
@@ -31,29 +31,29 @@
                 return $response;    
             } else {
                 $connection->close();
-				return array("status" => "ERROR");
+                return array("status" => "ERROR");
             }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function verifyUserDoesNotExist($username) {
-    	$connection = connectionToDataBase();
+        $connection = connectionToDataBase();
 
         if ($connection != null) {
             $result = SQLFindUsername($connection, $username);
 
-			if ($result->num_rows == 0) {
+            if ($result->num_rows == 0) {
                 $response = array("status" => "SUCCESS");
-				$connection->close();
-				return $response;
+                $connection->close();
+                return $response;
             } else {
-				$connection->close();
-				return array("status" => "409");
-			}
+                $connection->close();
+                return array("status" => "409");
+            }
         } else {
-        	return array("status" => "500");
+            return array("status" => "500");
         }
     }
 
@@ -162,7 +162,7 @@
     function attemptRegisterClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
             if ($username != "" && $userPassword != "" && $name != "" && $userDescription != "") {
 
                 $result = SQLRegisterClient($connection, $username, $userPassword, $name, $userDescription, 'client', $userPhone, $userAddress, $userEmail);
@@ -177,12 +177,12 @@
                     return array("status" => "411");
                 }
             } else {
-				$connection->close();
-				return array("status" => "410");
-			}
+                $connection->close();
+                return array("status" => "410");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function attemptUpdateClient($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
@@ -276,7 +276,7 @@
     function attemptRegisterProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
            if ($username != "" && $userPassword != "" && $name != "" && $userDescription != "") {
                 
                 $result = SQLRegisterProvider($connection, $username, $userPassword, $name, $userDescription, 'provider', $userPhone, $userAddress, $userEmail);
@@ -291,12 +291,12 @@
                     return array("status" => "413");
                 }
             } else {
-				$connection->close();
-				return array("status" => "410");
-			}
+                $connection->close();
+                return array("status" => "410");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function attemptUpdateProvider($username, $userPassword, $name, $userDescription, $userPhone, $userAddress, $userEmail) {
@@ -390,7 +390,7 @@
     function attemptRegisterProduct($productName, $productCategory, $productMeasure, $productPrice) {
         $connection = connectionToDataBase();
 
-		if ($connection != null) {
+        if ($connection != null) {
            if ($productName != "" && $productCategory != "" && $productMeasure != "" && $productPrice != "") {
 
                 $result = SQLRegisterProduct($connection, $productName, $productCategory, $productMeasure, $productPrice);
@@ -405,12 +405,12 @@
                     return array("status" => "415");
                 }
             } else {
-				$connection->close();
-				return array("status" => "414");
-			}
+                $connection->close();
+                return array("status" => "414");
+            }
         } else {
-			return array("status" => "500");
-		}
+            return array("status" => "500");
+        }
     }
 
     function attemptUpdateProduct($oldProductName, $newProductName, $productCategory, $productMeasure, $productPrice) {
@@ -822,7 +822,7 @@
         $connection = connectionToDataBase();
 
         if ($connection != null) {
-            $result = SQLReport($connection, $username);
+            $result = SQLReport($connection, $transactionDateStart, $transactionDateFinish, $transactionType, $transactionUsername, $transactionProductName, $transactionState);
 
             $response = array();
             if ($result->num_rows > 0) {
