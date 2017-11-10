@@ -48,7 +48,6 @@
     }
 
     function getSession() {
-        session_start();
         if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
             echo json_encode(array("username" => $_SESSION["username"], "type" => $_SESSION["type"]));
         } else {
