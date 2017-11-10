@@ -822,7 +822,7 @@
         $connection = connectionToDataBase();
 
         if ($connection != null) {
-            $result = SQLReport($connection, $username);
+            $result = SQLReport($connection, $transactionDateStart, $transactionDateFinish, $transactionType, $transactionUsername, $transactionProductName, $transactionState);
 
             $response = array();
             if ($result->num_rows > 0) {

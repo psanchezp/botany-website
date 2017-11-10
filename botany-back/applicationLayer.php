@@ -48,7 +48,7 @@
     }
 
     function getSession() {
-        if (isset($_SESSION["username"]) || isset($_SESSION["type"])) {
+        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
             echo json_encode(array("status" => "SUCCESS", "username" => $_SESSION["username"], "type" => $_SESSION["type"]));
         } else {
             header('HTTP/1.1 406 Session not started');
@@ -562,7 +562,7 @@
 
     function startCookie($username, $userPassword) {
         setcookie("cookieUsername", $username, time() + 3600 * 24 * 20);
-        setcookie("cookiePassword", $userPassword, time() + 3600 * 24 * 20);    
+        setcookie("cookiePassword", $userPassword, time() + 3600 * 24 * 20);
     }
 
     function startSession($username, $userType) {
@@ -572,6 +572,7 @@
     }
 
     function getCurrentUser() {
+        session_start();
         if (isset($_SESSION["username"])) {
             return $_SESSION["username"];
         } else {
