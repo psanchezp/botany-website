@@ -449,7 +449,7 @@
 
 	function SQLUpdateSale($conn, $saleID, $column, $value) {
 		// First verify that the transaction is not finalized
-		if (PurchaseIsFinalized($conn, $purchaseID)) {
+		if (SQLPurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
 		} else if (strtolower($column) == "client_username") {
 			die("Error - No puedes modificar el cliente de la venta.");
@@ -500,7 +500,7 @@
 
 	function SQLFinalizePurchase($conn, $purchaseID) {
 		// Verify that the transaction is not finalized to begin with
-		if (PurchaseIsFinalized($conn, $purchaseID)) {
+		if (SQLPurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - This transaction is already finalized!");
 		} else {
 			// Transaction is not finalized, we can finalize it
