@@ -7,7 +7,6 @@
         <form v-on:submit='login'>
           User: <input v-model='user' type="text" name="username"><br>
           Password: <input v-model='password' type="password" name="userPassword"><br>
-          <input v-model='rememberMe' name="rememberMe" type='checkbox'>Remember Me</md-checkbox>
           <input v-model='action' class="hidden" type="text" name="action" value="LOGIN">
           <br>
           <input type="submit" value="Login">
@@ -29,7 +28,6 @@ export default {
       url: 'http://localhost/botany-back/applicationLayer.php',
       user: '',
       password: '',
-      rememberMe: false,
       action: 'LOGIN'
     }
   },
@@ -39,7 +37,6 @@ export default {
       var params = new URLSearchParams()
       params.append('username', this.user)
       params.append('userPassword', this.password)
-      params.append('rememberMe', this.rememberMe)
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
