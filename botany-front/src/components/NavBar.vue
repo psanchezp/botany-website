@@ -43,7 +43,9 @@ export default {
       options: [
         { title: 'Clientes', url: '/clients' },
         { title: 'Proveedores', url: '/providers' },
-        { title: 'Productos', url: '/products' }
+        { title: 'Productos', url: '/products' },
+        { title: 'Transacciones', url: '/transactions/admin' },
+        { title: 'Reportes', url: '/reports' }
       ],
       url: 'http://127.0.0.1/botany-back/applicationLayer.php',
       action: 'LOGOUT'
