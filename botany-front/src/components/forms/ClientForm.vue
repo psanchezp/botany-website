@@ -38,6 +38,12 @@
       placeholder="Correo"
     />
     <input class="md-button" type="submit" :value="submitButton">
+  
+    <md-dialog-alert
+      :md-content="alert.content"
+      :md-ok-text="alert.ok"
+      ref="dialogSubmit">
+    </md-dialog-alert>
   </form>
 </template>
 
@@ -55,7 +61,11 @@
         userDescription: '',
         userPhone: '',
         userAddress: '',
-        userEmail: ''
+        userEmail: '',
+        alert: {
+          content: 'El cliente se actualizó.',
+          ok: 'Ok!'
+        }
       }
     },
     props: {
@@ -109,11 +119,17 @@
         params.append('action', this.action)
         axios.post(this.url, params)
         .then(function (response) {
-          console.log(response)
-        })
+          this.openDialog('dialogSubmit')
+        }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
+      },
+      openDialog (ref) {
+        this.$refs[ref].open()
+      },
+      closeDialog (ref) {
+        this.$refs[ref].close()
       }
     }
   }
