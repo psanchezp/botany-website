@@ -2,7 +2,7 @@
   <div class="finalize-button">
     <md-button v-on:click="finalizeObject" class="md-icon-button" href="#">
       <md-icon>
-        info
+        done_all
       </md-icon>
     </md-button>
   </div>
@@ -12,22 +12,22 @@
 import axios from 'axios'
 
 export default {
-  name: 'delete-button',
+  name: 'finalize-button',
   data () {
     return {
-      url: 'http://127.0.0.1/botany-back/applicationLayer.php'
+      url: 'http://127.0.0.1/botany-back/applicationLayer.php',
+      action: 'FINALIZE_TRANSACTION',
+      variable: 'transactionID'
     }
   },
   props: {
-    name: String,
-    variable: String,
-    action: String
+    transactionId: String
   },
   methods: {
-    deleteObject (event) {
+    finalizeObject (event) {
       event.preventDefault()
       var params = new URLSearchParams()
-      params.append(this.variable, this.name)
+      params.append(this.variable, this.transactionId)
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
