@@ -1,7 +1,7 @@
 <template>
   <div class="model-index">
     <nav-bar></nav-bar>
-    <h2>{{ translatedModel }}</h2>
+    <top-title :model="translatedModel" :offset="5"></top-title>
     <generic-table :model="model"></generic-table>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
   import GenericTable from '@/components/GenericTable'
   import NavBar from '@/components/NavBar'
+  import TopTitle from '@/components/titles/TopTitle'
   // import axios from 'axios'
 
   export default {
@@ -20,7 +21,7 @@
       }
     },
     components: {
-      GenericTable, NavBar
+      GenericTable, NavBar, TopTitle
     },
     computed: {
       translatedModel: function () {
@@ -38,3 +39,6 @@
     }
   }
 </script>
+
+<style scoped>
+</style>

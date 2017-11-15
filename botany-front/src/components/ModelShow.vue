@@ -1,7 +1,7 @@
 <template>
   <div class="model-show">
     <nav-bar></nav-bar>
-    <h2>{{ name }}</h2>
+    <top-title :model="uppercaseName" :offset="15"></top-title>
     <generic-show :model="model" :name="name"></generic-show>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
   import GenericShow from '@/components/GenericShow'
   import NavBar from '@/components/NavBar'
+  import TopTitle from '@/components/titles/TopTitle'
   // import axios from 'axios'
 
   export default {
@@ -21,7 +22,7 @@
       }
     },
     components: {
-      GenericShow, NavBar
+      GenericShow, NavBar, TopTitle
     },
     computed: {
       translatedModel: function () {
@@ -35,6 +36,9 @@
           default:
             return 'Administrador'
         }
+      },
+      uppercaseName: function () {
+        return (this.name.charAt(0)).toUpperCase() + (this.name).slice(1)
       }
     }
   }
