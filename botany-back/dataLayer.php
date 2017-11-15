@@ -22,7 +22,7 @@
         if ($connection != null) {
             $result = SQLFindUsername($connection, $username);
 
-            if ($result->num_rows > 0) {   
+            if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     $response = array("status" => "SUCCESS", "username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => $row['type'], "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']);
                 }
@@ -32,6 +32,82 @@
             } else {
                 $connection->close();
                 return array("status" => "ERROR");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptSaveHash($username, $sessionHash) {
+        $connection = connectionToDataBase();
+        if ($connection != null) {
+            $result = SQLFindUsername($connection, $username);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $result = SQLSaveHash($connection, $username, $row['type'], $sessionHash);
+
+                if ($result) {
+                    $connection->close();
+                    return array("status" => "SUCCESS");
+                } else {
+                    $connection->close();
+                    return array("status" => "442");
+                }
+            } else {
+                $connection->close();
+                return array("status" => "ERROR");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptGetSession($sessionHash) {
+        $connection = connectionToDataBase();
+        if ($connection != null) {
+            $result = SQLFindUsernameWithHash($connection, $sessionHash);
+
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $response = array("status" => "SUCCESS", "username" => $row['username'], "passwrd" => $row['passwrd'], "name" => $row['name'], "description" => $row['description'], "type" => $row['type'], "phone" => $row['phone'], "address" => $row['address'], "email" => $row['email']);
+                }
+
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "443");
+            }
+        } else {
+            return array("status" => "500");
+        }
+    }
+
+    function attemptDestroySession($sessionHash) {
+        $connection = connectionToDataBase();
+        if ($connection != null) {
+            $result = SQLFindUsernameWithHash($connection, $sessionHash);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $username = $row['username'];
+                $type = $row['type'];
+
+                $result = SQLDestroyHash($connection, $username, $type);
+
+                if ($result) {
+                    $connection->close();
+                    return array("status" => "SUCCESS");
+                } else {
+                    $connection->close();
+                    return array("status" => "444");
+                }
+
+                $connection->close();
+                return $response;
+            } else {
+                $connection->close();
+                return array("status" => "443");
             }
         } else {
             return array("status" => "500");

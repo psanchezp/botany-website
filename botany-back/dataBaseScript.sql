@@ -2,7 +2,8 @@
 CREATE TABLE Administrator (
     username VARCHAR(50) NOT NULL PRIMARY KEY,
     passwrd VARCHAR(250) NOT NULL, -- not a typo. "password" cannot be name of attribute
-    type VARCHAR(30) NOT NULL -- admin, client, or provider
+    type VARCHAR(30) NOT NULL, -- admin, client, or provider
+    sessionHash VARCHAR(250)
 );
 
 CREATE TABLE Client (
@@ -13,7 +14,8 @@ CREATE TABLE Client (
     type VARCHAR(30) NOT NULL, -- admin, client, or provider
     phone VARCHAR(20),
     address VARCHAR(100),
-    email VARCHAR(50)
+    email VARCHAR(50),
+    sessionHash VARCHAR(250)
 );
 
 CREATE TABLE Provider (
@@ -24,7 +26,8 @@ CREATE TABLE Provider (
     type VARCHAR(30) NOT NULL, -- admin, client, or provider 
     phone VARCHAR(20),
     address VARCHAR(100),
-    email VARCHAR(50)
+    email VARCHAR(50),
+    sessionHash VARCHAR(250)
 );
 
 CREATE TABLE Product (

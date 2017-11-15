@@ -12,6 +12,45 @@
 		return $result;
 	}
 
+	function SQLFindUsernameWithHash($conn, $sessionHash) {
+		$query = "SELECT * FROM 
+					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email FROM Administrator 
+				  	UNION
+				  	SELECT * FROM Client
+				  	UNION
+				  	SELECT * FROM Provider) AS T
+				  WHERE sessionHash = '$sessionHash';";
+
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLDestroyHash($conn, $userName, $type) {
+		if (strtolower($type) == "client") {
+			$query = "UPDATE Client SET sessionHash = NULL WHERE username = '$userName';"; 
+		} elseif (strtolower($type) == "provider") {
+			$query = "UPDATE Provider SET sessionHash = NULL WHERE username = '$userName';";
+		} else {
+			$query = "UPDATE Administrator SET sessionHash = NULL WHERE username = '$userName';";
+		}
+
+		$result = $conn->query($query);
+		return $result;
+	}
+
+	function SQLSaveHash($conn, $userName, $type, $sessionHash) {
+		if (strtolower($type) == "client") {
+			$query = "UPDATE Client SET sessionHash = '$sessionHash' WHERE username = '$userName';"; 
+		} elseif (strtolower($type) == "provider") {
+			$query = "UPDATE Provider SET sessionHash = '$sessionHash' WHERE username = '$userName';";
+		} else {
+			$query = "UPDATE Administrator SET sessionHash = '$sessionHash' WHERE username = '$userName';";
+		}
+
+		$result = $conn->query($query);
+		return $result;
+	}
+
 	function SQLRegisterClient($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
 		$query = "INSERT INTO Client VALUES ('$userName', '$userPassword', '$name', '$userDescription', '$userType', '$userPhone', '$userAddress', '$userEmail');";
 		return mysqli_query($conn, $query);
@@ -57,31 +96,31 @@
 			$query = "UPDATE Client
 				  SET username = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "passwrd") {
+		} elseif (strtolower($column) == "passwrd") {
 			$query = "UPDATE Client
 				  SET passwrd = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "name") {
+		} elseif (strtolower($column) == "name") {
 			$query = "UPDATE Client
 				  SET name = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "description") {
+		} elseif (strtolower($column) == "description") {
 			$query = "UPDATE Client
 				  SET description = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "type") { 
+		} elseif (strtolower($column) == "type") { 
 			$query = "UPDATE Client
 				  SET type = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "phone") { 
+		} elseif (strtolower($column) == "phone") { 
 			$query = "UPDATE Client
 				  SET phone = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "address") { 
+		} elseif (strtolower($column) == "address") { 
 			$query = "UPDATE Client
 				  SET address = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "email") { 
+		} elseif (strtolower($column) == "email") { 
 			$query = "UPDATE Client
 				  SET email = '$value'
 				  WHERE username = '$userName';";
@@ -102,31 +141,31 @@
 			$query = "UPDATE Provider
 				  SET username = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "passwrd") {
+		} elseif (strtolower($column) == "passwrd") {
 			$query = "UPDATE Provider
 				  SET passwrd = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "name") {
+		} elseif (strtolower($column) == "name") {
 			$query = "UPDATE Provider
 				  SET name = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "description") {
+		} elseif (strtolower($column) == "description") {
 			$query = "UPDATE Provider
 				  SET description = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "type") { 
+		} elseif (strtolower($column) == "type") { 
 			$query = "UPDATE Provider
 				  SET type = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "phone") { 
+		} elseif (strtolower($column) == "phone") { 
 			$query = "UPDATE Provider
 				  SET phone = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "address") { 
+		} elseif (strtolower($column) == "address") { 
 			$query = "UPDATE Provider
 				  SET address = '$value'
 				  WHERE username = '$userName';";
-		} else if (strtolower($column) == "email") { 
+		} elseif (strtolower($column) == "email") { 
 			$query = "UPDATE Provider
 				  SET email = '$value'
 				  WHERE username = '$userName';";
@@ -199,15 +238,15 @@
 			$query = "UPDATE Product
 				  SET name = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "category") {
+		} elseif (strtolower($column) == "category") {
 			$query = "UPDATE Product
 				  SET category = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "measure") {
+		} elseif (strtolower($column) == "measure") {
 			$query = "UPDATE Product
 				  SET measure = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "price") {
+		} elseif (strtolower($column) == "price") {
 			$query = "UPDATE Product
 				  SET price = '$value'
 				  WHERE ID = '$productID';";
@@ -224,15 +263,15 @@
 			$query = "UPDATE Product
 				  SET name = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "category") {
+		} elseif (strtolower($column) == "category") {
 			$query = "UPDATE Product
 				  SET category = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "measure") {
+		} elseif (strtolower($column) == "measure") {
 			$query = "UPDATE Product
 				  SET measure = '$value'
 				  WHERE ID = '$productID';";
-		} else if (strtolower($column) == "price") {
+		} elseif (strtolower($column) == "price") {
 			$query = "UPDATE Product
 				  SET price = '$value'
 				  WHERE ID = '$productID';";
@@ -414,9 +453,9 @@
 		// First verify that the transaction is not finalized
 		if (SQLPurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
-		} else if (strtolower($column) == "prov_username") {
+		} elseif (strtolower($column) == "prov_username") {
 			die("Error - No puedes modificar el proveedor de la compra.");
-		} else if (strtolower($column) == "prod_id")  {
+		} elseif (strtolower($column) == "prod_id")  {
 			die("Error - No puedes modificar el producto de la compra.");
 		} else {
 			// Transaction is not finalized, we can make the update
@@ -424,19 +463,19 @@
 				$query = "UPDATE Purchases
 					  SET transaction_date = '$value'
 					  WHERE ID = '$purchaseID';";
-			} else if (strtolower($column) == "state") { 
+			} elseif (strtolower($column) == "state") { 
 				$query = "UPDATE Purchases
 					  SET state = '$value'
 					  WHERE ID = '$purchaseID';";
-			} else if (strtolower($column) == "quantity") { 
+			} elseif (strtolower($column) == "quantity") { 
 				$query = "UPDATE Purchases
 					  SET quantity = '$value'
 					  WHERE ID = '$purchaseID';";
-			} else if (strtolower($column) == "description") { 
+			} elseif (strtolower($column) == "description") { 
 				$query = "UPDATE Purchases
 					  SET description = '$value'
 					  WHERE ID = '$purchaseID';";
-			} else if (strtolower($column) == "type") { 
+			} elseif (strtolower($column) == "type") { 
 				$query = "UPDATE Purchases
 					  SET type = '$value'
 					  WHERE ID = '$purchaseID';";
@@ -451,9 +490,9 @@
 		// First verify that the transaction is not finalized
 		if (SQLPurchaseIsFinalized($conn, $purchaseID)) {
 			die("Error - No puedes modificar transacciones finalizadas!");
-		} else if (strtolower($column) == "client_username") {
+		} elseif (strtolower($column) == "client_username") {
 			die("Error - No puedes modificar el cliente de la venta.");
-		} else if (strtolower($column) == "prod_id")  {
+		} elseif (strtolower($column) == "prod_id")  {
 			die("Error - No puedes modificar el producto de la venta.");
 		} else {
 			// Transaction is not finalized, we can make the update
@@ -461,19 +500,19 @@
 				$query = "UPDATE Sales
 					  SET transaction_date = '$value'
 					  WHERE ID = '$saleID';";
-			} else if (strtolower($column) == "state") { 
+			} elseif (strtolower($column) == "state") { 
 				$query = "UPDATE Sales
 					  SET state = '$value'
 					  WHERE ID = '$saleID';";
-			} else if (strtolower($column) == "quantity") { 
+			} elseif (strtolower($column) == "quantity") { 
 				$query = "UPDATE Sales
 					  SET quantity = '$value'
 					  WHERE ID = '$saleID';";
-			} else if (strtolower($column) == "description") { 
+			} elseif (strtolower($column) == "description") { 
 				$query = "UPDATE Sales
 					  SET description = '$value'
 					  WHERE ID = '$saleID';";
-			} else if (strtolower($column) == "type") { 
+			} elseif (strtolower($column) == "type") { 
 				$query = "UPDATE Sales
 					  SET type = '$value'
 					  WHERE ID = '$saleID';";
@@ -530,7 +569,7 @@
 	    if (strtolower($transactionType) == "sale") {
 	        // Cuando se selecciona que sean ventas o se selecciona a un username de un cliente (que incluye que $transactionType sea venta)
 	        return SQLReportSales($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
-	    } else if (strtolower($transactionType) == "purchase") {
+	    } elseif (strtolower($transactionType) == "purchase") {
 	        // Cuando se selecciona que sean compras o se selecciona a un username de un proveedor (que incluye que $transactionType sea compra)
 	        return SQLReportPurchases($conn, $transactionDateStart, $transactionDateFinish, $username, $productName, $state);
 	    } else {

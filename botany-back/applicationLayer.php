@@ -48,18 +48,19 @@
     }
 
     function getSession() {
-        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
-            echo json_encode(array("status" => "SUCCESS", "username" => $_SESSION["username"], "type" => $_SESSION["type"]));
+        $sessionHash = $_POST["sessionHash"];
+        $result = attemptGetSession($sessionHash);
+        if ($result["status"] == "SUCCESS") {
+            echo json_encode($result);
         } else {
-            header('HTTP/1.1 406 Session not started');
-            die("You haven't logged in! You will be redirected to the login page.");
+            errorHandling($result["status"]);
         }
     }
 
     function loginUser() {
         $username     = $_POST["username"];
         $userPassword = $_POST["userPassword"];
-        
+
         if ($username != "" && $userPassword != "") {
             $result = attemptLogin($username);
 
@@ -67,10 +68,17 @@
                 $decryptedPassword = decryptPassword($result['passwrd']);
                 
                 if ($decryptedPassword === $userPassword) {
-                    startSession($username, $result["type"]);
-                    startCookie($username, $userPassword);
+                    $sessionHash = $POST["sessionHash"];
+                    $result = attemptSaveHash($username, $sessionHash);
                     
-                    echo json_encode($result);
+                    if ($result["status"] == "SUCCESS") {
+                        startSession($username, $result["type"]);
+                        startCookie($username, $userPassword);
+                        
+                        echo json_encode($result);
+                    } else {
+                        errorHandling($result["status"]);
+                    }
                 } else {
                     // Usuario correcto, contraseña incorrecta
                     errorHandling("407");
@@ -86,14 +94,12 @@
     }
 
     function logoutUser() {
-        session_start();
-        if (isset($_SESSION["username"]) && isset($_SESSION["type"])) {
-            unset($_SESSION["username"]);
-            unset($_SESSION["type"]);
-            session_destroy();
+        $sessionHash = $_POST["sessionHash"];
+        $result = attemptDestroySession($sessionHash);
+        if ($result["status"] == "SUCCESS") {
             echo json_encode(array("status" => "SUCCESS"));
         } else {
-            errorHandling("408");
+            errorHandling($result["status"]);
         }
     }
 
@@ -388,7 +394,7 @@
                 } else {
                     errorHandling($result["status"]);
                 }
-            } else if (strtolower($transactionType) == "purchase") {
+            } elseif (strtolower($transactionType) == "purchase") {
                 $result = verifyProviderExists($username);
                 if ($result["status"] == "SUCCESS") {
 
@@ -437,7 +443,7 @@
                     } else {
                         errorHandling($result["status"]);
                     }
-                } else if (strtolower($transactionType) == "purchase") {
+                } elseif (strtolower($transactionType) == "purchase") {
                     $result = verifyProviderExists($username);
                     if ($result["status"] == "SUCCESS") {
 
@@ -740,6 +746,15 @@
                         break;
             case "441" : header("HTTP/1.1 441 No hay ninguna sesión iniciada.");
                         die("No hay ninguna sesión iniciada.");
+                        break;
+            case "442" : header("HTTP/1.1 442 No se pudo guardar la clave de sesión.");
+                        die("No se pudo guardar la clave de sesión.");
+                        break;
+            case "443" : header("HTTP/1.1 443 No se encontró una sesión activa.");
+                        die("No se encontró una sesión activa.");
+                        break;
+            case "444" : header("HTTP/1.1 444 No se pudo eliminar la sesión.");
+                        die("No se pudo eliminar la sesión.");
                         break;
             case "ERROR" : header('HTTP/1.1 416 No existe un usuario registrado con los datos dados.');
                         die("Los datos ingresados no coinciden con un usuario registrado.");
