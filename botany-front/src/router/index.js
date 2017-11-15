@@ -7,6 +7,7 @@ import ModelShow from '@/components/ModelShow'
 import ModelNew from '@/components/ModelNew'
 import ModelEdit from '@/components/ModelEdit'
 import TransactionIndex from '@/components/TransactionIndex'
+import Report from '@/components/Report'
 
 Vue.use(VueRouter)
 
@@ -19,12 +20,17 @@ export default new VueRouter({
       component: Login
     },
     {
+      path: '/reports',
+      title: 'Report path',
+      component: Report
+    },
+    {
       path: '/hello',
       title: 'Hello path',
       component: Hello
     },
     {
-      path: '/transactions/:model/:name?',
+      path: '/transactions/(admin|user)',
       title: 'Transactions',
       component: TransactionIndex,
       props: true

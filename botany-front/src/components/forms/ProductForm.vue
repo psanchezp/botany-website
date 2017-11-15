@@ -37,6 +37,12 @@
       placeholder="Precio"
     />
     <input class="md-button" type="submit" :value="submitButton">
+    
+    <md-dialog-alert
+      :md-content="alert.content"
+      :md-ok-text="alert.ok"
+      ref="dialogSubmit">
+    </md-dialog-alert>
   </form>
 </template>
 
@@ -54,7 +60,11 @@
         newProductName: '',
         productCategory: '',
         productMeasure: '',
-        productPrice: ''
+        productPrice: '',
+        alert: {
+          content: 'El producto se actualizó.',
+          ok: 'Ok!'
+        }
       }
     },
     props: {
@@ -64,6 +74,7 @@
     created: function () {
       if (this.item) {
         this.oldProductName = this.item.name
+        this.newProductName = this.item.name
         this.productCategory = this.item.category
         this.productMeasure = this.item.measure
         this.productPrice = this.item.price
@@ -108,11 +119,17 @@
         params.append('action', this.action)
         axios.post(this.url, params)
         .then(function (response) {
-          console.log(response)
-        })
+          this.openDialog('dialogSubmit')
+        }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
+      },
+      openDialog (ref) {
+        this.$refs[ref].open()
+      },
+      closeDialog (ref) {
+        this.$refs[ref].close()
       }
     }
   }

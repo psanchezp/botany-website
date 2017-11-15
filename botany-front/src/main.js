@@ -13,8 +13,8 @@ Vue.config.productionTip = false
 
 // Material theme colors
 Vue.material.registerTheme('default', {
-  primary: { color: 'grey', hue: 400, textColor: 'white' },
-  accent: { color: 'pink', hue: 400 },
+  primary: { color: 'pink', hue: 400, textColor: 'white' },
+  accent: { color: 'grey', hue: 400 },
   warn: { color: 'yellow', hue: 400 },
   background: { color: 'grey', hue: 50 }
 })

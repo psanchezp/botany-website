@@ -17,7 +17,6 @@
         </md-table-header>
         <md-table-body>
           <!-- Loop con cada row -->
-          <transaction-cell></transaction-cell>
           <!-- <transaction-actions status="nonFinalized"></transaction-actions> -->
         </md-table-body>
       </md-table>
@@ -36,8 +35,6 @@
           </md-table-row>
         </md-table-header>
         <md-table-body>
-          <transaction-cell></transaction-cell>
-          <!-- <transaction-actions status="nonFinalized"></transaction-actions> -->
         </md-table-body>
       </md-table>
     </md-layout>
@@ -46,7 +43,6 @@
 
 <script>
   // import axios from 'axios'
-  import TransactionCell from '@/components/tables/TransactionCell'
   import NavBar from '@/components/NavBar'
 
   export default {
@@ -56,7 +52,7 @@
       }
     },
     components: {
-      TransactionCell, NavBar
+      NavBar
     },
     created: function () {
       this.loadFT()

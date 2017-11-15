@@ -2,52 +2,30 @@
   <md-layout md-gutter>
     <md-layout md-flex="80" md-flex-offset="10">
       <h3>Transacciones no finalizadas</h3>
-      <md-table v-if="nonFDataLoaded" class="nonfinalized-table" v-once>
-        <md-table-header>
-          <md-table-row>
-            <md-table-cell>Producto</md-table-cell>
-            <md-table-cell>Usuario</md-table-cell>
-            <md-table-cell>Fecha</md-table-cell>
-            <md-table-cell>Estado</md-table-cell>
-            <md-table-cell>Cantidad</md-table-cell>
-            <md-table-cell>Descripción</md-table-cell>
-          </md-table-row>
-        </md-table-header>
-        <md-table-body>
-          <!-- Loop con cada row -->
-          <md-table-row v-for="item in nonFTransactions" :key="item">
-            <transaction-cell v-for="value in item" :key="value" :item="value"></transaction-cell>
-            <div><md-button>Finalizar</md-button></div>
-          </md-table-row>
-        </md-table-body>
-      </md-table>
-      <br>
+      <transaction-table 
+        v-if="nonFDataLoaded" 
+        class="nonfinalized-table"
+        table-type="non-final"
+        :transactionItems="nonFTransactions"
+      >
+      </transaction-table>
+    </md-layout>
+    <md-layout md-flex="80" md-flex-offset="10">
       <h3>Transacciones finalizadas</h3>
-      <md-table v-if="FDataLoaded" class="finalized-table" v-once>
-        <md-table-header>
-          <md-table-row>
-            <md-table-cell>Producto</md-table-cell>
-            <md-table-cell>Usuario</md-table-cell>
-            <md-table-cell>Fecha</md-table-cell>
-            <md-table-cell>Estado</md-table-cell>
-            <md-table-cell>Cantidad</md-table-cell>
-            <md-table-cell>Descripción</md-table-cell>
-          </md-table-row>
-        </md-table-header>
-        <md-table-body>
-          <md-table-row v-for="item in FTransactions" :key="item">
-            <transaction-cell v-for="value in item" :key="value" :item="value"></transaction-cell>
-          </md-table-row>
-          <!-- <transaction-actions status="finalized"></transaction-actions> -->
-        </md-table-body>
-      </md-table>
+      <transaction-table
+        v-if="FDataLoaded"
+        class="finalized-table"
+        table-type="final"
+        :transactionItems="FTransactions"
+      >
+      </transaction-table>
     </md-layout>
   </md-layout>
 </template>
 
 <script>
   import axios from 'axios'
-  import TransactionCell from '@/components/tables/TransactionCell'
+  import TransactionTable from '@/components/tables/TransactionTable'
   import NavBar from '@/components/NavBar'
 
   export default {
@@ -61,7 +39,7 @@
       }
     },
     components: {
-      TransactionCell, NavBar
+      TransactionTable, NavBar
     },
     created: function () {
       this.loadFT()
