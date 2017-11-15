@@ -9,13 +9,9 @@
         <a href="/hello" style="color: white">Botany Chips</a>
       </h2>
 
-      <md-button class="md-icon-button">
-        <md-icon>account_circle</md-icon>
+      <md-button class="md-icon-button" v-on:click="logout">
+        <md-icon>exit_to_app</md-icon>
       </md-button>
-      <form v-on:submit='logout'>
-        <input class="hidden" v-model='action' type="text" name="action" value="LOGOUT">
-        <input type="submit" value="logout">
-      </form>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
@@ -62,13 +58,14 @@ export default {
     logout (event) {
       event.preventDefault()
       var params = new URLSearchParams()
-      params.append('action', this.logout)
+      params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
           window.location.replace('/')
         })
         .catch(function (error) {
           console.log(error)
+          window.location.replace('/')
         })
     }
   }
