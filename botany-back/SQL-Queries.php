@@ -1,7 +1,7 @@
 <?php
 	function SQLFindUsername($conn, $userName) {
 		$query = "SELECT * FROM 
-					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, NULL as sessionHash FROM Administrator 
+					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, sessionHash FROM Administrator 
 				  	UNION
 				  	SELECT * FROM Client
 				  	UNION
@@ -14,7 +14,7 @@
 
 	function SQLFindUsernameWithHash($conn, $sessionHash) {
 		$query = "SELECT * FROM 
-					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, NULL as sessionHash FROM Administrator 
+					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, sessionHash FROM Administrator 
 				  	UNION
 				  	SELECT * FROM Client
 				  	UNION
