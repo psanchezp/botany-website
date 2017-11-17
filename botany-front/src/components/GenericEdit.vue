@@ -2,6 +2,7 @@
   <div class="generic-form">
     <md-layout md-gutter>
       <md-layout md-flex="40" md-flex-offset="30">
+        <back-button padding-size="h4" :model="model"></back-button>
         <h4>Editar {{ translatedModel }}</h4>
         <client-form 
           :item="item"
@@ -27,6 +28,7 @@
   import ProductForm from '@/components/forms/ProductForm'
   import ProviderForm from '@/components/forms/ProviderForm'
   import ClientForm from '@/components/forms/ClientForm'
+  import BackButton from '@/components/buttons/BackButton'
   import axios from 'axios'
 
   export default {
@@ -39,7 +41,7 @@
       }
     },
     components: {
-      ProductForm, ProviderForm, ClientForm
+      ProductForm, ProviderForm, ClientForm, BackButton
     },
     props: {
       model: String,

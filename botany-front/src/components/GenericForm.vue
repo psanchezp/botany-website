@@ -2,6 +2,7 @@
   <div class="generic-form">
     <md-layout md-gutter>
       <md-layout md-flex="40" md-flex-offset="30">
+        <back-button padding-size="h4" :model="model"></back-button>
         <h4>Nuevo {{ translatedModel }}</h4>
         <client-form
           action="REGISTER_CLIENT"
@@ -24,6 +25,7 @@
   import ProductForm from '@/components/forms/ProductForm'
   import ProviderForm from '@/components/forms/ProviderForm'
   import ClientForm from '@/components/forms/ClientForm'
+  import BackButton from '@/components/buttons/BackButton'
 
   export default {
     name: 'generic-form',
@@ -33,7 +35,7 @@
       }
     },
     components: {
-      ProductForm, ProviderForm, ClientForm
+      ProductForm, ProviderForm, ClientForm, BackButton
     },
     props: {
       model: String
