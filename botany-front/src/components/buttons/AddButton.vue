@@ -1,25 +1,31 @@
 <template>
-  <!-- <md-button class="md-icon-button md-raised green">
+  <md-button class="md-icon-button md-raised pink" :href="linkToFollow">
     <md-icon>
       add
     </md-icon>
-  </md-button> -->
-  <router-link :to="'link'"></router-link>
+  </md-button>
 </template>
 
 <script>
 export default {
   name: 'add-button',
-  props: ['link'],
+  props: {
+    model: String
+  },
   data () {
     return {
+    }
+  },
+  computed: {
+    linkToFollow () {
+      return '/' + this.model + '/new'
     }
   }
 }
 </script>
 
 <style scoped>
-.add-button {
-  text-align: right;
-}
+  .md-button {
+    margin: -5em;
+  }
 </style>

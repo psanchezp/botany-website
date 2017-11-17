@@ -6,7 +6,7 @@
       </md-button>
 
       <h2 class="md-title" style="flex: 1">
-        <a href="/hello" style="color: white">Botany Chips</a>
+        <a href="/" style="color: white">Botany Chips</a>
       </h2>
 
       <md-button class="md-icon-button" v-on:click="logout">
@@ -40,7 +40,7 @@ export default {
         { title: 'Clientes', url: '/clients' },
         { title: 'Proveedores', url: '/providers' },
         { title: 'Productos', url: '/products' },
-        { title: 'Transacciones', url: '/transactions/admin' },
+        { title: 'Transacciones', url: '/transactions' },
         { title: 'Reportes', url: '/reports' }
       ],
       url: 'http://127.0.0.1/botany-back/applicationLayer.php',
@@ -58,14 +58,14 @@ export default {
     logout (event) {
       event.preventDefault()
       var params = new URLSearchParams()
+      params.append('sessionHash', localStorage.session_hash)
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
-          window.location.replace('/')
-        })
+          this.$router.push('/login')
+        }.bind(this))
         .catch(function (error) {
           console.log(error)
-          window.location.replace('/')
         })
     }
   }

@@ -1,18 +1,26 @@
 <template>
   <div class="login">
-    <h1> {{ title }}</h1>
-    <h4> {{ msg }}</h4>
     <md-layout md-gutter>
-      <md-layout md-flex="40" md-flex-offset="30">
+      <md-layout class="login-box" md-flex="40" md-flex-offset="30">
+        <h2> {{ title }}</h2>
+        <h4> {{ msg }}</h4>
         <form v-on:submit='login'>
-          User: <input v-model='user' type="text" name="username"><br>
-          Password: <input v-model='password' type="password" name="userPassword"><br>
+          <label>Usuario</label> 
+          <input v-model='user' type="text" name="username"><br>
+          <label>Contraseña</label>
+          <input v-model='password' type="password" name="userPassword"><br>
           <input v-model='action' class="hidden" type="text" name="action" value="LOGIN">
           <br>
-          <input type="submit" value="Login">
+          <input class="md-button pink" type="submit" value="Login">
         </form>
       </md-layout>
     </md-layout>
+
+    <md-dialog-alert
+      :md-content="alert.content"
+      :md-ok-text="alert.ok"
+      ref="errorDialog">
+    </md-dialog-alert>
   </div>
 </template>
 
@@ -28,7 +36,11 @@ export default {
       url: 'http://localhost/botany-back/applicationLayer.php',
       user: '',
       password: '',
-      action: 'LOGIN'
+      action: 'LOGIN',
+      alert: {
+        content: 'Contraseña o Usuario incorrectos',
+        ok: 'Ok'
+      }
     }
   },
   methods: {
@@ -40,36 +52,33 @@ export default {
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
-          this.$router.push('/hello')
+          localStorage.setItem('session_hash', response.data.sessionHash)
+          this.$router.push('/')
         }.bind(this))
         .catch(function (error) {
-          console.log(error)
-        })
+          this.openDialog('errorDialog', error)
+        }.bind(this))
+    },
+    openDialog (ref, error) {
+      console.log(error)
+      this.$refs[ref].open()
+    },
+    closeDialog (ref) {
+      this.$refs[ref].close()
     }
   }
 }
 </script>
 
 <style scoped>
-  h1, h2 {
-    font-weight: bold;
-  }
-
-  .login {
-    text-align: center;
-  }
-
   form {
     width: 100%;
   }
 
-  .hidden {
-    display: none;
-  }
-
-  input[type='checkbox'] {
-    opacity: 1;
-    position: relative;
-    left: 0;
+  .login-box {
+    background: #FDFDFD;
+    padding: 1em 2em;
+    border-radius: 4px;
+    margin-top: 6em;
   }
 </style>

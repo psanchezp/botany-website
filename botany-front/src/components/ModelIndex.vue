@@ -1,7 +1,15 @@
 <template>
   <div class="model-index">
     <nav-bar></nav-bar>
-    <top-title :model="translatedModel" :offset="5"></top-title>
+    <top-title
+      :model="model"
+      :translation="translatedModel"
+      :offset="5"
+      showBack=false
+    ></top-title>
+    <md-layout class="button-div">
+      <add-button :model="model"></add-button>
+    </md-layout>
     <generic-table :model="model"></generic-table>
   </div>
 </template>
@@ -10,6 +18,7 @@
   import GenericTable from '@/components/GenericTable'
   import NavBar from '@/components/NavBar'
   import TopTitle from '@/components/titles/TopTitle'
+  import AddButton from '@/components/buttons/AddButton'
   // import axios from 'axios'
 
   export default {
@@ -21,7 +30,7 @@
       }
     },
     components: {
-      GenericTable, NavBar, TopTitle
+      GenericTable, NavBar, TopTitle, AddButton
     },
     computed: {
       translatedModel: function () {
@@ -41,4 +50,7 @@
 </script>
 
 <style scoped>
+  .button-div {
+    float: right;
+  }
 </style>

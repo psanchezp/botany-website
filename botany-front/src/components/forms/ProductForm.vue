@@ -83,9 +83,9 @@
     computed: {
       submitButton () {
         if (this.action === 'UPDATE_PRODUCT') {
-          return 'Edit'
+          return 'Editar'
         } else {
-          return 'Create'
+          return 'Crear'
         }
       },
       disabledEdit () {
@@ -119,7 +119,11 @@
         params.append('action', this.action)
         axios.post(this.url, params)
         .then(function (response) {
-          this.openDialog('dialogSubmit')
+          if (this.action === 'UPDATE_PRODUCT') {
+            this.openDialog('dialogSubmit')
+          } else {
+            this.$router.push('/products')
+          }
         }.bind(this))
         .catch(function (error) {
           console.log(error)
