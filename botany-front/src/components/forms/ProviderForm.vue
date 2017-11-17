@@ -85,9 +85,9 @@
     computed: {
       submitButton () {
         if (this.action === 'UPDATE_PROVIDER') {
-          return 'Edit'
+          return 'Editar'
         } else {
-          return 'Create'
+          return 'Crear'
         }
       },
       disabledInput () {
@@ -119,7 +119,11 @@
         params.append('action', this.action)
         axios.post(this.url, params)
         .then(function (response) {
-          this.openDialog('dialogSubmit')
+          if (this.action === 'UPDATE_PROVIDER') {
+            this.openDialog('dialogSubmit')
+          } else {
+            this.$router.push('/providers')
+          }
         }.bind(this))
         .catch(function (error) {
           console.log(error)
