@@ -707,7 +707,7 @@
 
         if ($connection != null) {
             $result = SQLGetPurchase($connection, $transactionID);
-            if ($result) {
+            if ($result->num_rows > 0) {
                 $result = SQLFinalizePurchase($connection, $transactionID);
                 if ($result) {
                     $response = array("status" => "SUCCESS", "id" => $transactionID, "state" => "finalized");
