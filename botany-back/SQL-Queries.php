@@ -1,7 +1,7 @@
 <?php
 	function SQLFindUsername($conn, $userName) {
 		$query = "SELECT * FROM 
-					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email FROM Administrator 
+					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, NULL as sessionHash FROM Administrator 
 				  	UNION
 				  	SELECT * FROM Client
 				  	UNION
@@ -14,7 +14,7 @@
 
 	function SQLFindUsernameWithHash($conn, $sessionHash) {
 		$query = "SELECT * FROM 
-					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email FROM Administrator 
+					(SELECT username, passwrd, NULL AS name, NULL AS description, type, NULL AS phone, NULL AS address, NULL as email, NULL as sessionHash FROM Administrator 
 				  	UNION
 				  	SELECT * FROM Client
 				  	UNION
@@ -52,12 +52,12 @@
 	}
 
 	function SQLRegisterClient($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
-		$query = "INSERT INTO Client VALUES ('$userName', '$userPassword', '$name', '$userDescription', '$userType', '$userPhone', '$userAddress', '$userEmail');";
+		$query = "INSERT INTO Client VALUES ('$userName', '$userPassword', '$name', '$userDescription', '$userType', '$userPhone', '$userAddress', '$userEmail', NULL);";
 		return mysqli_query($conn, $query);
 	}
 
 	function SQLRegisterProvider($conn, $userName, $userPassword, $name, $userDescription, $userType, $userPhone, $userAddress, $userEmail) {
-		$query = "INSERT INTO Provider VALUES ('$userName', '$userPassword', '$name', '$userDescription', '$userType', '$userPhone', '$userAddress', '$userEmail');";
+		$query = "INSERT INTO Provider VALUES ('$userName', '$userPassword', '$name', '$userDescription', '$userType', '$userPhone', '$userAddress', '$userEmail', NULL);";
 		$result = $conn->query($query);
 		return $result;
 	}
