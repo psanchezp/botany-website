@@ -62,7 +62,7 @@ export default {
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
-          this.$router.push('/')
+          this.$router.push('/login')
         }.bind(this))
         .catch(function (error) {
           console.log(error)
