@@ -1,7 +1,12 @@
 <template>
   <div class="model-show">
     <nav-bar></nav-bar>
-    <top-title :model="uppercaseName" :offset="15"></top-title>
+    <top-title
+      :model="model"
+      :translation="uppercaseName"
+      :offset="15"
+      showBack=false
+    ></top-title>
     <generic-show :model="model" :name="name"></generic-show>
   </div>
 </template>
