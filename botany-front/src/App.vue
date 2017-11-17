@@ -5,8 +5,21 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'app'
+  name: 'app',
+  created: function () {
+    var params = new URLSearchParams()
+    params.append('sessionHash', localStorage.session_hash)
+    params.append('action', 'GET_SESSION')
+    axios.post('http://localhost/botany-back/applicationLayer.php', params)
+      .then(function (response) {
+      })
+      .catch(function () {
+        this.$router.push('/login')
+      }.bind(this))
+  }
 }
 </script>
 
@@ -17,8 +30,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.green {
-  background-color: #66BB6A;
+.pink {
+  background-color: #EC407A !important;
   color: white !important;
 }
 

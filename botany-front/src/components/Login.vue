@@ -13,6 +13,12 @@
         </form>
       </md-layout>
     </md-layout>
+
+    <md-dialog-alert
+      :md-content="alert.content"
+      :md-ok-text="alert.ok"
+      ref="errorDialog">
+    </md-dialog-alert>
   </div>
 </template>
 
@@ -28,7 +34,11 @@ export default {
       url: 'http://localhost/botany-back/applicationLayer.php',
       user: '',
       password: '',
-      action: 'LOGIN'
+      action: 'LOGIN',
+      alert: {
+        content: 'Contraseña o Usuario incorrectos',
+        ok: 'Ok'
+      }
     }
   },
   methods: {
@@ -40,11 +50,19 @@ export default {
       params.append('action', this.action)
       axios.post(this.url, params)
         .then(function (response) {
-          this.$router.push('/hello')
+          localStorage.setItem('session_hash', response.data.sessionHash)
+          this.$router.push('/')
         }.bind(this))
         .catch(function (error) {
-          console.log(error)
-        })
+          this.openDialog('errorDialog', error)
+        }.bind(this))
+    },
+    openDialog (ref, error) {
+      console.log(error)
+      this.$refs[ref].open()
+    },
+    closeDialog (ref) {
+      this.$refs[ref].close()
     }
   }
 }
