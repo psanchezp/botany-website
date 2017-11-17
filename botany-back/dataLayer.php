@@ -49,7 +49,7 @@
 
                 if ($result) {
                     $connection->close();
-                    return array("status" => "SUCCESS");
+                    return array("status" => "SUCCESS", "sessionHash" => $sessionHash);
                 } else {
                     $connection->close();
                     return array("status" => "442");

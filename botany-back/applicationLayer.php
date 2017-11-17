@@ -68,16 +68,20 @@
                 $decryptedPassword = decryptPassword($result['passwrd']);
                 
                 if ($decryptedPassword === $userPassword) {
-                    $sessionHash = $POST["sessionHash"];
-                    $result = attemptSaveHash($username, $sessionHash);
+                    $stringToHash = $username;
+                    $stringToHash .= $userPassword;
+                    $sessionHash = generateHash($stringToHash);
+                    $hashResult = attemptSaveHash($username, $sessionHash);
                     
-                    if ($result["status"] == "SUCCESS") {
+                    if ($hashResult["status"] == "SUCCESS") {
+                        $result["sessionHash"] = $hashResult["sessionHash"];
+
                         startSession($username, $result["type"]);
                         startCookie($username, $userPassword);
                         
                         echo json_encode($result);
                     } else {
-                        errorHandling($result["status"]);
+                        errorHandling($hashResult["status"]);
                     }
                 } else {
                     // Usuario correcto, contraseña incorrecta
@@ -593,6 +597,21 @@
         } else {
             errorHandling("441");
         }
+    }
+
+    function generateHash($userNamePassword) {
+        $key       = pack('H*', "bcb04b7e103a05afe34763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
+        $key_size  = strlen($key);
+        $plaintext = $userNamePassword;
+        $iv_size   = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $iv        = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        
+        $ciphertext = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $plaintext, MCRYPT_MODE_CBC, $iv);
+        $ciphertext = $iv . $ciphertext;
+        
+        $userNamePassword = base64_encode($ciphertext);
+
+        return $userNamePassword;
     }
 
     function encryptPassword() {
