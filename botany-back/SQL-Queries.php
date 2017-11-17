@@ -553,7 +553,7 @@
 
 	function SQLFinalizeSale($conn, $saleID) {
 		// Verify that the transaction is not finalized to begin with
-		if (SaleIsFinalized($conn, $saleID)) {
+		if (SQLSaleIsFinalized($conn, $saleID)) {
 			die("Error - This transaction is already finalized!");
 		} else {
 			// Transaction is not finalized, we can finalize it

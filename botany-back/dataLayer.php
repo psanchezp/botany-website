@@ -587,7 +587,7 @@
             $result = SQLRegisterSale($connection, $clientUsername, SQLGetProductIDFromName($connection, $productName), $transactionDate, $state, $quantity, $description);
 
             if ($result) {
-                $response = array("status" => "SUCCESS", "username" => $clientUsername, "productName" => $productName, "transactionDate" => $transactionDate, "description" => $description, "state" => $state, "quantity" => $quantity, "transactionType" => "sale");
+                $response = array("status" => "SUCCESS", "username" => $providerUsername, "productName" => $productName, "transactionDate" => $transactionDate, "description" => $description, "state" => $state, "quantity" => $quantity, "transactionType" => "sale");
 
                 $connection->close();
                 return $response;
@@ -605,7 +605,7 @@
 
         if ($connection != null) {
 
-            $result = SQLRegisterPurchase($connection, $clientUsername, SQLGetProductIDFromName($connection, $productName), $transactionDate, $state, $quantity, $description);
+            $result = SQLRegisterPurchase($connection, $providerUsername, SQLGetProductIDFromName($connection, $productName), $transactionDate, $state, $quantity, $description);
 
             if ($result) {
                 $response = array("status" => "SUCCESS", "username" => $providerUsername, "productName" => $productName, "transactionDate" => $transactionDate, "description" => $description, "state" => $state, "quantity" => $quantity, "transactionType" => "purchase");
