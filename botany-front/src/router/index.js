@@ -15,7 +15,7 @@ export default new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/login',
       title: 'Login path',
       component: Login
     },
@@ -25,12 +25,12 @@ export default new VueRouter({
       component: Report
     },
     {
-      path: '/hello',
+      path: '/',
       title: 'Hello path',
       component: Hello
     },
     {
-      path: '/transactions/(admin|user)',
+      path: '/transactions',
       title: 'Transactions',
       component: TransactionIndex,
       props: true
